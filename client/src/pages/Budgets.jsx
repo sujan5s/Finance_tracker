@@ -1,7 +1,13 @@
+import BudgetCard from "../components/budget/BudgetCard";
+
+const categories = ["Food", "Rent", "Utilities", "Entertainment"];
+
 const Budgets = () => {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-md">
-      <h1 className="text-2xl font-bold">Budgets Page</h1>
+    <div className="grid grid-cols-2 gap-6">
+      {categories.map((cat) => (
+        <BudgetCard key={cat} category={cat} />
+      ))}
     </div>
   );
 };
