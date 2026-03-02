@@ -28,7 +28,7 @@ const Dashboard = () => {
         </select>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <SummaryCard
           title="Total Balance"
           amount={`₹${totalBalance}`}
@@ -46,7 +46,7 @@ const Dashboard = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <CategoryPieChart />
         <MonthlyBarChart />
       </div>

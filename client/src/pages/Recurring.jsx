@@ -37,7 +37,10 @@ const Recurring = () => {
           Add Recurring Transaction
         </h2>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-5 gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-5 gap-4"
+        >
           <input
             type="text"
             placeholder="Title"
@@ -45,7 +48,7 @@ const Recurring = () => {
             onChange={(e) =>
               setForm({ ...form, title: e.target.value })
             }
-            className="border rounded-xl p-2"
+            className="border rounded-xl p-2 w-full"
           />
 
           <input
@@ -55,7 +58,7 @@ const Recurring = () => {
             onChange={(e) =>
               setForm({ ...form, amount: e.target.value })
             }
-            className="border rounded-xl p-2"
+            className="border rounded-xl p-2 w-full"
           />
 
           <input
@@ -65,7 +68,7 @@ const Recurring = () => {
             onChange={(e) =>
               setForm({ ...form, day: e.target.value })
             }
-            className="border rounded-xl p-2"
+            className="border rounded-xl p-2 w-full"
           />
 
           <select
@@ -73,7 +76,7 @@ const Recurring = () => {
             onChange={(e) =>
               setForm({ ...form, category: e.target.value })
             }
-            className="border rounded-xl p-2"
+            className="border rounded-xl p-2 w-full"
           >
             <option>Food</option>
             <option>Rent</option>
@@ -81,7 +84,7 @@ const Recurring = () => {
             <option>Entertainment</option>
           </select>
 
-          <button className="bg-rose-500 text-white rounded-xl">
+          <button className="bg-rose-500 text-white rounded-xl w-full py-2">
             Add
           </button>
         </form>
@@ -92,17 +95,25 @@ const Recurring = () => {
           Recurring List
         </h2>
 
-        <ul className="space-y-2">
+        <div className="space-y-3">
           {recurring.map((item) => (
-            <li key={item.id} className="border p-3 rounded-xl">
-              {item.title} - ₹{item.amount} (Day {item.day})
-            </li>
+            <div
+              key={item.id}
+              className="border p-3 rounded-xl flex justify-between items-center"
+            >
+              <div>
+                <p className="font-medium">{item.title}</p>
+                <p className="text-sm text-gray-500">
+                  ₹{item.amount} • Day {item.day}
+                </p>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
 
         <button
           onClick={runRecurring}
-          className="mt-6 bg-purple-500 text-white px-4 py-2 rounded-xl"
+          className="mt-6 bg-purple-500 text-white px-4 py-2 rounded-xl w-full md:w-auto"
         >
           Run Recurring This Month
         </button>

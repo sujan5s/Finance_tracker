@@ -1,25 +1,39 @@
 import { useState } from "react";
-import Sidebar from "./sidebar";
-import Navbar from "./navbar";
+import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
 
 const Layout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="flex h-screen bg-rose-50">
+    <div className="bg-rose-50 min-h-screen">
+      
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
       {/* Sidebar */}
       <div
-        className={`transition-all duration-300 ease-in-out ${
-          isOpen ? "w-64" : "w-0"
-        } h-full overflow-hidden`}
+        className={`fixed top-0 left-0 h-screen bg-white shadow-lg z-40 
+        transition-all duration-300 ease-in-out
+        ${isOpen ? "w-64 translate-x-0" : "w-0 -translate-x-full"}
+        overflow-hidden`}
       >
-        <Sidebar />
+        <Sidebar closeSidebar={() => setIsOpen(false)} />
       </div>
 
-      {/* Main Area */}
-      <div className="flex-1 flex flex-col h-full">
+      {/* Main Content */}
+      <div
+        className={`transition-all duration-300 ease-in-out
+        ${isOpen ? "ml-64" : "ml-0"}`}
+      >
         <Navbar toggleSidebar={() => setIsOpen(!isOpen)} />
-        <div className="flex-1 overflow-y-auto p-8">
+
+        <div className="p-4 md:p-8 min-h-screen">
           {children}
         </div>
       </div>

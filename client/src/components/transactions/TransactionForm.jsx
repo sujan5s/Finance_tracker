@@ -13,7 +13,6 @@ const TransactionForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!form.title || !form.amount) return;
 
     addTransaction({
@@ -34,7 +33,10 @@ const TransactionForm = () => {
     <div className="bg-white p-6 rounded-2xl shadow-md">
       <h2 className="mb-4 font-semibold">Add Transaction</h2>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-5 gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-5 gap-4"
+      >
         <input
           type="text"
           placeholder="Title"
@@ -42,7 +44,7 @@ const TransactionForm = () => {
           onChange={(e) =>
             setForm({ ...form, title: e.target.value })
           }
-          className="border rounded-xl p-2"
+          className="border rounded-xl p-2 w-full"
         />
 
         <input
@@ -52,7 +54,7 @@ const TransactionForm = () => {
           onChange={(e) =>
             setForm({ ...form, amount: e.target.value })
           }
-          className="border rounded-xl p-2"
+          className="border rounded-xl p-2 w-full"
         />
 
         <select
@@ -60,7 +62,7 @@ const TransactionForm = () => {
           onChange={(e) =>
             setForm({ ...form, category: e.target.value })
           }
-          className="border rounded-xl p-2"
+          className="border rounded-xl p-2 w-full"
         >
           <option>Food</option>
           <option>Rent</option>
@@ -73,13 +75,13 @@ const TransactionForm = () => {
           onChange={(e) =>
             setForm({ ...form, type: e.target.value })
           }
-          className="border rounded-xl p-2"
+          className="border rounded-xl p-2 w-full"
         >
           <option value="expense">Expense</option>
           <option value="income">Income</option>
         </select>
 
-        <button className="bg-rose-500 text-white rounded-xl">
+        <button className="bg-rose-500 text-white rounded-xl w-full py-2">
           Add
         </button>
       </form>

@@ -7,7 +7,7 @@ const Navbar = ({ toggleSidebar }) => {
       >
         ☰
       </button>
-
+      
       <h1 className="text-2xl font-bold text-rose-500">
         FinanceTracker
       </h1>
