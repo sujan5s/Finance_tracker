@@ -6,18 +6,22 @@ export const getTransactions = async (req, res) => {
 
   try {
 
-    const userId = req.user.userId;
+    const userId = req.userId;
 
     const transactions = await prisma.transaction.findMany({
       where: { userId },
-      orderBy: { date: "desc" }
+      orderBy: { createdAt: "desc" }
     });
 
     res.json(transactions);
 
   } catch (error) {
 
-    res.status(500).json({ error: error.message });
+    console.log(error);
+
+    res.status(500).json({
+      error: error.message
+    });
 
   }
 
@@ -27,16 +31,16 @@ export const addTransaction = async (req, res) => {
 
   try {
 
-    const { title, amount, type, category } = req.body;
+    const userId = req.userId;
 
-    const userId = req.user.userId;
+    const { amount, category, type, description } = req.body;
 
     const transaction = await prisma.transaction.create({
       data: {
-        title,
-        amount: parseFloat(amount),
-        type,
+        amount,
         category,
+        type,
+        description,
         userId
       }
     });
@@ -45,27 +49,11 @@ export const addTransaction = async (req, res) => {
 
   } catch (error) {
 
-    res.status(500).json({ error: error.message });
+    console.log(error);
 
-  }
-
-};
-
-export const deleteTransaction = async (req, res) => {
-
-  try {
-
-    const id = parseInt(req.params.id);
-
-    await prisma.transaction.delete({
-      where: { id }
+    res.status(500).json({
+      error: error.message
     });
-
-    res.json({ message: "Transaction deleted" });
-
-  } catch (error) {
-
-    res.status(500).json({ error: error.message });
 
   }
 

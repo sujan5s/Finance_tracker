@@ -1,14 +1,29 @@
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const signup = async (req, res) => {
+const generateToken = (userId) => {
+  return jwt.sign({ id: userId }, "secret123", {
+    expiresIn: "7d",
+  });
+};
 
+export const registerUser = async (req, res) => {
   try {
 
     const { name, email, password } = req.body;
+
+    const userExists = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (userExists) {
+      return res.status(400).json({
+        message: "User already exists",
+      });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -16,52 +31,65 @@ export const signup = async (req, res) => {
       data: {
         name,
         email,
-        password: hashedPassword
-      }
+        password: hashedPassword,
+      },
     });
 
-    res.json(user);
+    const token = generateToken(user.id);
+
+    res.json({
+      token,
+      user,
+    });
 
   } catch (error) {
 
-    res.status(500).json({ error: error.message });
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
 
   }
-
 };
 
-export const login = async (req, res) => {
-
+export const loginUser = async (req, res) => {
   try {
 
     const { email, password } = req.body;
 
     const user = await prisma.user.findUnique({
-      where: { email }
+      where: { email },
     });
 
     if (!user) {
-      return res.status(400).json({ message: "User not found" });
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
-    if (!validPassword) {
-      return res.status(400).json({ message: "Invalid password" });
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
     }
 
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    const token = generateToken(user.id);
 
-    res.json({ token });
+    res.json({
+      token,
+      user,
+    });
 
   } catch (error) {
 
-    res.status(500).json({ error: error.message });
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
 
   }
-
 };

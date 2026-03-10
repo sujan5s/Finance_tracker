@@ -1,3 +1,7 @@
-const API_BASE = "http://localhost:5000/api";
+import axios from "axios";
 
-export default API_BASE;
+const API = axios.create({
+  baseURL: "http://localhost:5000/api"
+});
+
+export default API;
