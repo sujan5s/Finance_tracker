@@ -9,43 +9,46 @@ export const useFinance = () => useContext(FinanceContext);
 
 export const FinanceProvider = ({ children }) => {
 
-  const [dashboard, setDashboard] = useState(null);
-  const [transactions, setTransactions] = useState([]);
-  const [recurring, setRecurring] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const currentMonth = new Date().toISOString().slice(0,7);
+
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+
+  const [dashboard,setDashboard] = useState(null);
+  const [transactions,setTransactions] = useState([]);
+  const [recurring,setRecurring] = useState([]);
+  const [loading,setLoading] = useState(false);
 
   const getToken = () => localStorage.getItem("token");
 
-  // ---------------- DASHBOARD ----------------
+  const month = Number(selectedMonth.split("-")[1]);
+  const year = Number(selectedMonth.split("-")[0]);
+
+  // DASHBOARD
 
   const fetchDashboard = async () => {
 
-    try {
+    try{
 
       setLoading(true);
 
       const token = getToken();
 
-      const today = new Date();
-      const month = today.getMonth() + 1;
-      const year = today.getFullYear();
-
       const res = await axios.get(
         `${API}/dashboard?month=${month}&year=${year}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`
+          headers:{
+            Authorization:`Bearer ${token}`
           }
         }
       );
 
       setDashboard(res.data);
 
-    } catch (err) {
+    }catch(err){
 
-      console.log("Dashboard error:", err.response?.data || err.message);
+      console.log(err.response?.data || err.message);
 
-    } finally {
+    }finally{
 
       setLoading(false);
 
@@ -53,210 +56,246 @@ export const FinanceProvider = ({ children }) => {
 
   };
 
-  // ---------------- TRANSACTIONS ----------------
+
+  // TRANSACTIONS
 
   const fetchTransactions = async () => {
 
-    try {
+    try{
 
       const token = getToken();
 
-      const res = await axios.get(`${API}/transactions`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const res = await axios.get(
+        `${API}/transactions?month=${month}&year=${year}`,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
-      });
+      );
 
       setTransactions(res.data);
 
-    } catch (err) {
+    }catch(err){
 
-      console.log("Transactions error:", err.response?.data || err.message);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
+
 
   const addTransaction = async (data) => {
 
-    try {
+    try{
 
       const token = getToken();
 
-      await axios.post(`${API}/transactions`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      await axios.post(
+        `${API}/transactions`,
+        data,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
-      });
+      );
 
       fetchTransactions();
       fetchDashboard();
 
-    } catch (err) {
+    }catch(err){
 
-      console.log("Add transaction error:", err.response?.data || err.message);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
 
-  const updateTransaction = async (id, data) => {
 
-    try {
+  const updateTransaction = async (id,data) => {
+
+    try{
 
       const token = getToken();
 
-      await axios.put(`${API}/transactions/${id}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      await axios.put(
+        `${API}/transactions/${id}`,
+        data,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
-      });
+      );
 
       fetchTransactions();
       fetchDashboard();
 
-    } catch (err) {
+    }catch(err){
 
-      console.log("Update transaction error:", err.response?.data || err.message);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
+
 
   const deleteTransaction = async (id) => {
 
-    try {
+    try{
 
       const token = getToken();
 
-      await axios.delete(`${API}/transactions/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      await axios.delete(
+        `${API}/transactions/${id}`,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
-      });
+      );
 
       fetchTransactions();
       fetchDashboard();
 
-    } catch (err) {
+    }catch(err){
 
-      console.log("Delete transaction error:", err.response?.data || err.message);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
 
-  // ---------------- RECURRING ----------------
+
+  // RECURRING
 
   const fetchRecurring = async () => {
 
-    try {
+    try{
 
       const token = getToken();
 
-      const res = await axios.get(`${API}/recurring`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const res = await axios.get(
+        `${API}/recurring`,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
-      });
+      );
 
       setRecurring(res.data);
 
-    } catch (err) {
+    }catch(err){
 
-      console.log("Recurring fetch error:", err.response?.data || err.message);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
+
 
   const addRecurring = async (data) => {
 
-    try {
+    try{
 
       const token = getToken();
 
-      await axios.post(`${API}/recurring`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      await axios.post(
+        `${API}/recurring`,
+        data,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
-      });
+      );
 
       fetchRecurring();
 
-    } catch (err) {
+    }catch(err){
 
-      console.log("Add recurring error:", err.response?.data || err.message);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
+
+
+  const updateRecurring = async (id,data) => {
+
+    try{
+
+      const token = getToken();
+
+      await axios.put(
+        `${API}/recurring/${id}`,
+        data,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
+
+      fetchRecurring();
+
+    }catch(err){
+
+      console.log(err.response?.data || err.message);
+
+    }
+
+  };
+
 
   const deleteRecurring = async (id) => {
 
-    try {
+    try{
 
       const token = getToken();
 
-      await axios.delete(`${API}/recurring/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      await axios.delete(
+        `${API}/recurring/${id}`,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
-      });
+      );
 
       fetchRecurring();
 
-    } catch (err) {
+    }catch(err){
 
-      console.log("Delete recurring error:", err.response?.data || err.message);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
 
-  const updateRecurring = async (id, data) => {
 
-  try {
-
-    const token = getToken();
-
-    await axios.put(`${API}/recurring/${id}`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    fetchRecurring();
-
-  } catch (err) {
-
-    console.log(
-      "Update recurring error:",
-      err.response?.data || err.message
-    );
-
-  }
-
-};
-
-  return (
+  return(
 
     <FinanceContext.Provider
       value={{
-  dashboard,
-  transactions,
-  recurring,
-  loading,
-  fetchDashboard,
-  fetchTransactions,
-  addTransaction,
-  updateTransaction,
-  deleteTransaction,
-  fetchRecurring,
-  addRecurring,
-  updateRecurring,
-  deleteRecurring
-}}
+        selectedMonth,
+        setSelectedMonth,
+        dashboard,
+        transactions,
+        recurring,
+        loading,
+        fetchDashboard,
+        fetchTransactions,
+        addTransaction,
+        updateTransaction,
+        deleteTransaction,
+        fetchRecurring,
+        addRecurring,
+        updateRecurring,
+        deleteRecurring
+      }}
     >
 
       {children}

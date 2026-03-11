@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useFinance } from "../context/FinanceContext";
 
 function Budgets() {
 
-  const currentMonth = new Date().toISOString().slice(0,7);
+  const { selectedMonth, setSelectedMonth } = useFinance();
 
-  const [selectedMonth,setSelectedMonth] = useState(currentMonth);
   const [budgetInput,setBudgetInput] = useState("");
   const [currentBudget,setCurrentBudget] = useState(null);
   const [budgetId,setBudgetId] = useState(null);

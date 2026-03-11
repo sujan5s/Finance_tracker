@@ -1,25 +1,28 @@
-function Navbar({ sidebarOpen, setSidebarOpen }) {
+import { useFinance } from "../../context/FinanceContext";
 
-  return (
+function Navbar({ sidebarOpen,setSidebarOpen }) {
+
+  const { selectedMonth,setSelectedMonth } = useFinance();
+
+  return(
 
     <div className="bg-white shadow p-4 flex items-center justify-between">
 
-      {/* TOGGLE BUTTON */}
-
       <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
+        onClick={()=>setSidebarOpen(!sidebarOpen)}
         className="text-xl"
       >
         ☰
       </button>
 
-      <h1 className="font-bold text-lg text-pink-500">
-        FinanceTracker
-      </h1>
+      <input
+        type="month"
+        value={selectedMonth}
+        onChange={(e)=>setSelectedMonth(e.target.value)}
+        className="border p-2 rounded"
+      />
 
-      <div>
-        Welcome 👋
-      </div>
+      <div>Finance Tracker</div>
 
     </div>
 

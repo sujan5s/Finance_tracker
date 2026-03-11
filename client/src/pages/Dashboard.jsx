@@ -12,11 +12,11 @@ import {
 
 const Dashboard = () => {
 
-  const { dashboard, fetchDashboard, loading } = useFinance();
+  const { dashboard, fetchDashboard, loading, selectedMonth } = useFinance();
 
   useEffect(() => {
     fetchDashboard();
-  }, []);
+  }, [selectedMonth]);
 
   if (loading || !dashboard) return <p>Loading...</p>;
 
@@ -66,11 +66,9 @@ const Dashboard = () => {
 
       </div>
 
-      {/* CHARTS SECTION */}
+      {/* CHARTS */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-
-        {/* INCOME VS EXPENSE */}
 
         <div className="bg-white p-6 rounded shadow">
 
@@ -90,10 +88,7 @@ const Dashboard = () => {
               >
 
                 {data.map((entry, index) => (
-                  <Cell
-                    key={index}
-                    fill={COLORS[index]}
-                  />
+                  <Cell key={index} fill={COLORS[index]} />
                 ))}
 
               </Pie>
@@ -106,12 +101,8 @@ const Dashboard = () => {
 
         </div>
 
-        {/* EXPENSE CATEGORY */}
-
         <div className="bg-white p-6 rounded shadow">
-
           <ExpenseChart />
-
         </div>
 
       </div>
@@ -129,7 +120,7 @@ const Dashboard = () => {
           <div
             className="bg-blue-500 h-4 rounded"
             style={{ width: `${usedPercent}%` }}
-          ></div>
+          />
 
         </div>
 

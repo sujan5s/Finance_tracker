@@ -4,12 +4,17 @@ import { useFinance } from "../context/FinanceContext";
 const Transactions = () => {
 
   const {
-    transactions,
-    fetchTransactions,
-    addTransaction,
-    updateTransaction,
-    deleteTransaction
-  } = useFinance();
+  transactions,
+  fetchTransactions,
+  addTransaction,
+  updateTransaction,
+  deleteTransaction,
+  selectedMonth
+} = useFinance();
+
+useEffect(() => {
+  fetchTransactions();
+}, [selectedMonth]);
 
   const [type, setType] = useState("expense");
 
@@ -24,7 +29,7 @@ const Transactions = () => {
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  }, [selectedMonth]);
 
   const handleSubmit = (e) => {
 
@@ -32,6 +37,7 @@ const Transactions = () => {
 
     const data = {
       ...form,
+      amount: Number(form.amount),
       type
     };
 
@@ -65,7 +71,6 @@ const Transactions = () => {
     });
 
     setType(t.type);
-
     setEditingId(t.id);
 
   };
@@ -135,35 +140,35 @@ const Transactions = () => {
           required
         />
 
-        {/* CATEGORY ONLY FOR EXPENSE */}
+        {/* CATEGORY */}
 
         <select
-  value={form.category}
-  onChange={(e) =>
-    setForm({ ...form, category: e.target.value })
-  }
-  className="border p-2"
->
+          value={form.category}
+          onChange={(e) =>
+            setForm({ ...form, category: e.target.value })
+          }
+          className="border p-2"
+        >
 
-  {type === "expense" ? (
-    <>
-      <option value="Food">Food</option>
-      <option value="Transport">Transport</option>
-      <option value="Shopping">Shopping</option>
-      <option value="Bills">Bills</option>
-      <option value="Entertainment">Entertainment</option>
-    </>
-  ) : (
-    <>
-      <option value="Salary">Salary</option>
-      <option value="Freelance">Freelance</option>
-      <option value="Investment">Investment</option>
-      <option value="Business">Business</option>
-      <option value="Other">Other</option>
-    </>
-  )}
+          {type === "expense" ? (
+            <>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Bills">Bills</option>
+              <option value="Entertainment">Entertainment</option>
+            </>
+          ) : (
+            <>
+              <option value="Salary">Salary</option>
+              <option value="Freelance">Freelance</option>
+              <option value="Investment">Investment</option>
+              <option value="Business">Business</option>
+              <option value="Other">Other</option>
+            </>
+          )}
 
-</select>
+        </select>
 
         <input
           type="date"
@@ -182,9 +187,7 @@ const Transactions = () => {
               : "bg-green-500"
           }`}
         >
-
           {editingId ? "Update" : "Add"}
-
         </button>
 
       </form>
@@ -219,6 +222,7 @@ const Transactions = () => {
                 <td className="p-3">₹{t.amount}</td>
 
                 <td className="p-3">
+
                   <span
                     className={
                       t.type === "income"
@@ -228,11 +232,10 @@ const Transactions = () => {
                   >
                     {t.type}
                   </span>
+
                 </td>
 
-                <td className="p-3">
-                  {t.category || "-"}
-                </td>
+                <td className="p-3">{t.category || "-"}</td>
 
                 <td className="p-3">
                   {new Date(t.date).toLocaleDateString()}
@@ -248,9 +251,7 @@ const Transactions = () => {
                   </button>
 
                   <button
-                    onClick={() =>
-                      deleteTransaction(t.id)
-                    }
+                    onClick={() => deleteTransaction(t.id)}
                     className="bg-red-500 text-white px-3 py-1 rounded"
                   >
                     Delete

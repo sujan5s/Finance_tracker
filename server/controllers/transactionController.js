@@ -1,14 +1,23 @@
 import prisma from "../config/prisma.js";
 
-// GET ALL TRANSACTIONS
+// GET TRANSACTIONS BY MONTH
 
 export const getTransactions = async (req, res) => {
 
   try {
 
+    const { month, year } = req.query;
+
+    const start = new Date(year, month - 1, 1);
+    const end = new Date(year, month, 1);
+
     const transactions = await prisma.transaction.findMany({
       where: {
-        userId: req.user.id
+        userId: req.user.id,
+        date: {
+          gte: start,
+          lt: end
+        }
       },
       orderBy: {
         date: "desc"
@@ -30,7 +39,6 @@ export const getTransactions = async (req, res) => {
 };
 
 
-
 // ADD TRANSACTION
 
 export const addTransaction = async (req, res) => {
@@ -39,20 +47,12 @@ export const addTransaction = async (req, res) => {
 
     const { title, amount, type, category, date } = req.body;
 
-    if (!title || !amount || !type || !date) {
-
-      return res.status(400).json({
-        message: "Missing required fields"
-      });
-
-    }
-
     const transaction = await prisma.transaction.create({
       data: {
-        title: title,
+        title,
         amount: Number(amount),
-        type: type,
-        category: category || null,
+        type,
+        category,
         date: new Date(date),
         userId: req.user.id
       }
@@ -65,8 +65,7 @@ export const addTransaction = async (req, res) => {
     console.error("Add Transaction Error:", err);
 
     res.status(500).json({
-      message: "Failed to add transaction",
-      error: err.message
+      message: "Failed to add transaction"
     });
 
   }
@@ -74,8 +73,7 @@ export const addTransaction = async (req, res) => {
 };
 
 
-
-// UPDATE TRANSACTION
+// UPDATE
 
 export const updateTransaction = async (req, res) => {
 
@@ -86,9 +84,7 @@ export const updateTransaction = async (req, res) => {
     const { title, amount, type, category, date } = req.body;
 
     const transaction = await prisma.transaction.update({
-      where: {
-        id: Number(id)
-      },
+      where: { id: Number(id) },
       data: {
         title,
         amount: Number(amount),
@@ -113,8 +109,7 @@ export const updateTransaction = async (req, res) => {
 };
 
 
-
-// DELETE TRANSACTION
+// DELETE
 
 export const deleteTransaction = async (req, res) => {
 
@@ -123,9 +118,7 @@ export const deleteTransaction = async (req, res) => {
     const { id } = req.params;
 
     await prisma.transaction.delete({
-      where: {
-        id: Number(id)
-      }
+      where: { id: Number(id) }
     });
 
     res.json({
