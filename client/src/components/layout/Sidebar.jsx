@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useFinance } from "../../context/FinanceContext";
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
+
+  const { user } = useFinance();
 
   const handleClick = () => {
     setSidebarOpen(false);
@@ -34,7 +37,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             onClick={handleClick}
             className="hover:bg-gray-100 p-2 rounded"
           >
-           Dashboard
+            Dashboard
           </Link>
 
           <Link
@@ -66,9 +69,23 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       </div>
 
 
-      {/* Logout Button */}
+      {/* PROFILE + LOGOUT */}
 
       <div className="p-4 border-t">
+
+        {user && (
+          <div className="mb-3">
+
+            <p className="font-semibold">
+              {user.name}
+            </p>
+
+            <p className="text-sm text-gray-500">
+              {user.email}
+            </p>
+
+          </div>
+        )}
 
         <button
           onClick={handleLogout}

@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
 
 const API = "http://localhost:5000/api";
@@ -16,6 +16,7 @@ export const FinanceProvider = ({ children }) => {
   const [dashboard,setDashboard] = useState(null);
   const [transactions,setTransactions] = useState([]);
   const [recurring,setRecurring] = useState([]);
+  const [user,setUser] = useState(null);
   const [loading,setLoading] = useState(false);
 
   const getToken = () => localStorage.getItem("token");
@@ -23,7 +24,35 @@ export const FinanceProvider = ({ children }) => {
   const month = Number(selectedMonth.split("-")[1]);
   const year = Number(selectedMonth.split("-")[0]);
 
-  // DASHBOARD
+  // ---------------- PROFILE ----------------
+
+  const fetchProfile = async () => {
+
+    try{
+
+      const token = getToken();
+
+      const res = await axios.get(
+        `${API}/user/profile`,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
+
+      setUser(res.data);
+
+    }catch(err){
+
+      console.log(err.response?.data || err.message);
+
+    }
+
+  };
+
+
+  // ---------------- DASHBOARD ----------------
 
   const fetchDashboard = async () => {
 
@@ -57,7 +86,7 @@ export const FinanceProvider = ({ children }) => {
   };
 
 
-  // TRANSACTIONS
+  // ---------------- TRANSACTIONS ----------------
 
   const fetchTransactions = async () => {
 
@@ -168,7 +197,7 @@ export const FinanceProvider = ({ children }) => {
   };
 
 
-  // RECURRING
+  // ---------------- RECURRING ----------------
 
   const fetchRecurring = async () => {
 
@@ -276,6 +305,17 @@ export const FinanceProvider = ({ children }) => {
   };
 
 
+  useEffect(()=>{
+
+    const token = getToken();
+
+    if(token){
+      fetchProfile();
+    }
+
+  },[]);
+
+
   return(
 
     <FinanceContext.Provider
@@ -285,6 +325,7 @@ export const FinanceProvider = ({ children }) => {
         dashboard,
         transactions,
         recurring,
+        user,
         loading,
         fetchDashboard,
         fetchTransactions,
