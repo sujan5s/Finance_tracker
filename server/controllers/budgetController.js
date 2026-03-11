@@ -1,34 +1,28 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../config/prisma.js";
 
 
-export const getBudget = async (req,res)=>{
+export const getBudget = async (req, res) => {
 
-  try{
-
-    const userId = req.userId;
+  try {
 
     const { month, year } = req.query;
 
     const budget = await prisma.budget.findFirst({
-
-      where:{
-        userId,
-        month:Number(month),
-        year:Number(year)
+      where: {
+        month: Number(month),
+        year: Number(year),
+        userId: req.user.id
       }
-
     });
 
     res.json(budget);
 
-  }catch(err){
+  } catch (err) {
 
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
-      error:err.message
+      message: "Failed to fetch budget"
     });
 
   }
@@ -36,35 +30,25 @@ export const getBudget = async (req,res)=>{
 };
 
 
+export const createBudget = async (req, res) => {
 
-export const setBudget = async (req,res)=>{
-
-  try{
-
-    const userId = req.userId;
+  try {
 
     const { amount, month, year } = req.body;
 
     const existing = await prisma.budget.findFirst({
-
-      where:{
-        userId,
-        month,
-        year
+      where: {
+        month: Number(month),
+        year: Number(year),
+        userId: req.user.id
       }
-
     });
 
-    if(existing){
+    if (existing) {
 
       const updated = await prisma.budget.update({
-
-        where:{ id:existing.id },
-
-        data:{
-          amount:Number(amount)
-        }
-
+        where: { id: existing.id },
+        data: { amount: Number(amount) }
       });
 
       return res.json(updated);
@@ -72,24 +56,22 @@ export const setBudget = async (req,res)=>{
     }
 
     const budget = await prisma.budget.create({
-
-      data:{
-        amount:Number(amount),
-        month,
-        year,
-        userId
+      data: {
+        amount: Number(amount),
+        month: Number(month),
+        year: Number(year),
+        userId: req.user.id
       }
-
     });
 
-    res.json(budget);
+    res.status(201).json(budget);
 
-  }catch(err){
+  } catch (err) {
 
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
-      error:err.message
+      message: "Failed to create budget"
     });
 
   }
@@ -97,31 +79,28 @@ export const setBudget = async (req,res)=>{
 };
 
 
+export const deleteBudget = async (req, res) => {
 
-export const deleteBudget = async (req,res)=>{
-
-  try{
+  try {
 
     const { id } = req.params;
 
     await prisma.budget.delete({
-
-      where:{
-        id:Number(id)
+      where: {
+        id: Number(id)
       }
-
     });
 
     res.json({
-      message:"Budget deleted"
+      message: "Budget deleted"
     });
 
-  }catch(err){
+  } catch (err) {
 
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
-      error:err.message
+      message: "Failed to delete budget"
     });
 
   }
