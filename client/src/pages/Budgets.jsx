@@ -1,58 +1,141 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Budgets() {
 
-  const [budgetInput, setBudgetInput] = useState("");
-  const [currentBudget, setCurrentBudget] = useState(null);
-  const [editing, setEditing] = useState(false);
+  const currentMonth = new Date().toISOString().slice(0,7);
 
-  const month = new Date().toLocaleString("default", {
-    month: "long",
-    year: "numeric"
-  });
+  const [selectedMonth,setSelectedMonth] = useState(currentMonth);
+  const [budgetInput,setBudgetInput] = useState("");
+  const [currentBudget,setCurrentBudget] = useState(null);
+  const [budgetId,setBudgetId] = useState(null);
 
-  const storageKey = `budget-${month}`;
+  const month = Number(selectedMonth.split("-")[1]);
+  const year = Number(selectedMonth.split("-")[0]);
 
-  useEffect(() => {
 
-    const savedBudget = localStorage.getItem(storageKey);
+  useEffect(()=>{
 
-    if (savedBudget) {
-      setCurrentBudget(savedBudget);
+    fetchBudget();
+
+  },[selectedMonth]);
+
+
+  const fetchBudget = async ()=>{
+
+    try{
+
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(
+        `http://localhost:5000/api/budget?month=${month}&year=${year}`,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
+
+      if(res.data){
+
+        setCurrentBudget(res.data.amount);
+        setBudgetId(res.data.id);
+
+      }else{
+
+        setCurrentBudget(null);
+        setBudgetId(null);
+
+      }
+
+    }catch(err){
+
+      setCurrentBudget(null);
+      setBudgetId(null);
+
     }
 
-  }, []);
+  };
 
-  const handleSave = () => {
 
-    if (!budgetInput) return;
+  const handleSave = async ()=>{
 
-    localStorage.setItem(storageKey, budgetInput);
+    if(!budgetInput) return;
 
-    setCurrentBudget(budgetInput);
-    setBudgetInput("");
-    setEditing(false);
+    const token = localStorage.getItem("token");
+
+    try{
+
+      await axios.post(
+        "http://localhost:5000/api/budget",
+        {
+          amount:budgetInput,
+          month,
+          year
+        },
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
+
+      setCurrentBudget(budgetInput);
+      setBudgetInput("");
+
+      fetchBudget();
+
+    }catch(err){
+
+      console.log(err);
+
+    }
 
   };
 
-  const handleEdit = () => {
+
+  const handleEdit = ()=>{
 
     setBudgetInput(currentBudget);
-    setEditing(true);
 
   };
 
-  const handleDelete = () => {
 
-    localStorage.removeItem(storageKey);
+  const handleDelete = async ()=>{
 
-    setCurrentBudget(null);
-    setBudgetInput("");
-    setEditing(false);
+    if(!budgetId) return;
+
+    const token = localStorage.getItem("token");
+
+    try{
+
+      await axios.delete(
+        `http://localhost:5000/api/budget/${budgetId}`,
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
+
+      setCurrentBudget(null);
+      setBudgetInput("");
+      setBudgetId(null);
+
+    }catch(err){
+
+      console.log(err);
+
+    }
 
   };
 
-  return (
+
+  const formattedMonth = new Date(selectedMonth+"-01")
+  .toLocaleString("default",{month:"long",year:"numeric"});
+
+
+  return(
 
     <div>
 
@@ -63,8 +146,15 @@ function Budgets() {
       <div className="bg-white p-6 rounded-xl shadow mb-6">
 
         <h2 className="mb-3 font-medium">
-          {editing ? "Edit Budget" : `Set Budget for ${month}`}
+          Select Month
         </h2>
+
+        <input
+          type="month"
+          value={selectedMonth}
+          onChange={(e)=>setSelectedMonth(e.target.value)}
+          className="border p-3 rounded mb-4"
+        />
 
         <div className="flex gap-3">
 
@@ -94,7 +184,7 @@ function Budgets() {
         </h2>
 
         <p className="text-gray-500 mb-2">
-          {month}
+          {formattedMonth}
         </p>
 
         {currentBudget ? (

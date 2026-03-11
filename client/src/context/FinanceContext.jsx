@@ -1,152 +1,165 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useState, useContext } from "react";
 import axios from "axios";
 
-const FinanceContext = createContext();
+const API = "http://localhost:5000/api";
 
-export const useFinance = () => {
-  return useContext(FinanceContext);
-};
+export const FinanceContext = createContext();
+
+export const useFinance = () => useContext(FinanceContext);
 
 export const FinanceProvider = ({ children }) => {
 
-  const [transactions, setTransactions] = useState([]);
   const [dashboard, setDashboard] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const API = "http://localhost:5000/api";
+  const getToken = () => localStorage.getItem("token");
 
-  const getToken = () => {
-    return localStorage.getItem("token");
+  // DASHBOARD
+
+  const fetchDashboard = async () => {
+
+    try {
+
+      setLoading(true);
+
+      const token = getToken();
+
+      const today = new Date();
+      const month = today.getMonth() + 1;
+      const year = today.getFullYear();
+
+      const res = await axios.get(
+        `${API}/dashboard?month=${month}&year=${year}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setDashboard(res.data);
+
+    } catch (err) {
+
+      console.log(err.response?.data || err.message);
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
   };
 
-  // FETCH TRANSACTIONS
+  // TRANSACTIONS
+
   const fetchTransactions = async () => {
 
     try {
 
       const token = getToken();
-      if (!token) return;
 
       const res = await axios.get(`${API}/transactions`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       });
 
       setTransactions(res.data);
 
     } catch (err) {
 
-      console.error("Transactions error:", err.response?.data || err.message);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
 
-  // FETCH DASHBOARD
-  const fetchDashboard = async () => {
+  // ADD
 
-    try {
-
-      const token = getToken();
-      if (!token) return;
-
-      const res = await axios.get(`${API}/dashboard`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      setDashboard(res.data);
-
-    } catch (err) {
-
-      console.error("Dashboard error:", err.response?.data || err.message);
-
-    }
-
-  };
-
-  // ADD TRANSACTION
   const addTransaction = async (data) => {
 
     try {
 
       const token = getToken();
 
-      const res = await axios.post(
-        `${API}/transactions`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+      await axios.post(`${API}/transactions`, data, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
-      setTransactions([res.data, ...transactions]);
-
+      fetchTransactions();
       fetchDashboard();
 
     } catch (err) {
 
-      console.error(err);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
 
-  // ADD RECURRING
-  const addRecurring = async (data) => {
+  // UPDATE
+
+  const updateTransaction = async (id, data) => {
 
     try {
 
       const token = getToken();
 
-      await axios.post(
-        `${API}/recurring`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+      await axios.put(`${API}/transactions/${id}`, data, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      fetchTransactions();
+      fetchDashboard();
 
     } catch (err) {
 
-      console.error(err);
+      console.log(err.response?.data || err.message);
 
     }
 
   };
 
-  useEffect(() => {
+  // DELETE
 
-    const token = getToken();
+  const deleteTransaction = async (id) => {
 
-    if (token) {
+    try {
+
+      const token = getToken();
+
+      await axios.delete(`${API}/transactions/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
       fetchTransactions();
       fetchDashboard();
 
+    } catch (err) {
+
+      console.log(err.response?.data || err.message);
+
     }
 
-  }, []);
+  };
 
   return (
+
     <FinanceContext.Provider
       value={{
-        transactions,
         dashboard,
-        fetchTransactions,
+        transactions,
+        loading,
         fetchDashboard,
+        fetchTransactions,
         addTransaction,
-        addRecurring
+        updateTransaction,
+        deleteTransaction
       }}
     >
-      {children}
-    </FinanceContext.Provider>
-  );
-};
 
-export default FinanceContext;
+      {children}
+
+    </FinanceContext.Provider>
+
+  );
+
+};

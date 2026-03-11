@@ -8,7 +8,7 @@ import authRoutes from "./routes/authRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import recurringRoutes from "./routes/recurringRoutes.js";
-
+import budgetRoutes from "./routes/budgetRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -20,6 +20,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/recurring", recurringRoutes);
+app.use("/api/budget", budgetRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Finance Tracker API running" });

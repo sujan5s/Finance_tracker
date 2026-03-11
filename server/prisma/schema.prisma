@@ -15,6 +15,7 @@ model User {
   createdAt DateTime @default(now())
 
   transactions Transaction[]
+  budgets      Budget[]
 }
 
 model Transaction {
@@ -37,4 +38,14 @@ model RecurringTransaction {
   category  String
   frequency String
   startDate DateTime
+}
+
+model Budget {
+  id      Int   @id @default(autoincrement())
+  amount  Float
+  month   Int
+  year    Int
+
+  userId  Int
+  user    User @relation(fields: [userId], references: [id])
 }

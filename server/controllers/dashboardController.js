@@ -1,46 +1,58 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../config/prisma.js";
 
-const prisma = new PrismaClient();
+export const getDashboard = async (req,res)=>{
 
-export const getDashboard = async (req, res) => {
+  try{
 
-  try {
+    const userId = req.user.id;
 
-    const userId = req.userId;
+    const month = Number(req.query.month) || new Date().getMonth()+1;
+    const year = Number(req.query.year) || new Date().getFullYear();
+
+    const startDate = new Date(year,month-1,1);
+    const endDate = new Date(year,month,1);
 
     const transactions = await prisma.transaction.findMany({
-      where: { userId }
-    });
-
-    let income = 0;
-    let expenses = 0;
-
-    transactions.forEach((t) => {
-
-      if (t.type === "income") {
-        income += t.amount;
-      } else {
-        expenses += t.amount;
+      where:{
+        userId,
+        date:{
+          gte:startDate,
+          lt:endDate
+        }
       }
-
     });
 
-    const balance = income - expenses;
+    const budget = await prisma.budget.findFirst({
+      where:{
+        userId,
+        month,
+        year
+      }
+    });
+
+    const totalExpense = transactions
+      .filter(t=>t.type==="expense")
+      .reduce((sum,t)=>sum+t.amount,0);
+
+    const totalIncome = transactions
+      .filter(t=>t.type==="income")
+      .reduce((sum,t)=>sum+t.amount,0);
+
+    const budgetAmount = budget ? budget.amount : 0;
+
+    const remaining = budgetAmount - totalExpense;
 
     res.json({
-      income,
-      expenses,
-      balance,
+      budget:budgetAmount,
+      expense:totalExpense,
+      income:totalIncome,
+      remaining,
       transactions
     });
 
-  } catch (error) {
+  }catch(err){
 
-    console.log(error);
-
-    res.status(500).json({
-      message: "Server error"
-    });
+    res.status(500).json({error:err.message});
 
   }
 

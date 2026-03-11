@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { FinanceProvider } from "./context/FinanceContext";
 
 import Layout from "./components/layout/Layout";
 
@@ -10,29 +11,35 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 function App() {
+
   return (
-    <BrowserRouter>
 
-      <Routes>
+    <FinanceProvider>
 
-        {/* AUTH ROUTES */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+      <BrowserRouter>
 
-        {/* APP ROUTES WITH SIDEBAR */}
-        <Route element={<Layout />}>
+        <Routes>
 
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/recurring" element={<Recurring />} />
-          <Route path="/budgets" element={<Budgets />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
 
-        </Route>
+          <Route element={<Layout />}>
 
-      </Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/recurring" element={<Recurring />} />
+            <Route path="/budgets" element={<Budgets />} />
 
-    </BrowserRouter>
+          </Route>
+
+        </Routes>
+
+      </BrowserRouter>
+
+    </FinanceProvider>
+
   );
+
 }
 
 export default App;
