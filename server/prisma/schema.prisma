@@ -19,12 +19,12 @@ model User {
 }
 
 model Transaction {
-  id       Int      @id @default(autoincrement())
-  title    String
-  amount   Float
-  type     String
-  category String
-  date     DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  title     String
+  amount    Float
+  type      String
+  category  String
+  date      DateTime @default(now())
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
@@ -42,10 +42,13 @@ model RecurringTransaction {
 }
 
 model Budget {
-  id     Int   @id @default(autoincrement())
-  amount Float
-  month  Int
-  year   Int
-  userId Int
-  user   User  @relation(fields: [userId], references: [id])
+  id      Int    @id @default(autoincrement())
+  amount  Float
+  month   Int
+  year    Int
+
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, month, year])
 }
