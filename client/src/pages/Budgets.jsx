@@ -13,13 +13,9 @@ function Budgets() {
   const month = Number(selectedMonth.split("-")[1]);
   const year = Number(selectedMonth.split("-")[0]);
 
-
   useEffect(()=>{
-
     fetchBudget();
-
   },[selectedMonth]);
-
 
   const fetchBudget = async ()=>{
 
@@ -57,7 +53,6 @@ function Budgets() {
 
   };
 
-
   const handleSave = async ()=>{
 
     if(!budgetInput) return;
@@ -93,13 +88,11 @@ function Budgets() {
 
   };
 
-
   const handleEdit = ()=>{
 
     setBudgetInput(currentBudget);
 
   };
-
 
   const handleDelete = async ()=>{
 
@@ -130,104 +123,117 @@ function Budgets() {
 
   };
 
-
   const formattedMonth = new Date(selectedMonth+"-01")
   .toLocaleString("default",{month:"long",year:"numeric"});
 
-
   return(
 
-    <div>
+    <div className="p-6">
 
       <h1 className="text-2xl font-bold mb-6">
-        Monthly Budget
+        Budgets
       </h1>
 
-      <div className="bg-white p-6 rounded-xl shadow mb-6">
+      {/* FORM */}
 
-        <h2 className="mb-3 font-medium">
-          Select Month
-        </h2>
+      <div className="bg-white p-4 rounded shadow mb-6 flex gap-3 flex-wrap">
 
         <input
           type="month"
           value={selectedMonth}
           onChange={(e)=>setSelectedMonth(e.target.value)}
-          className="border p-3 rounded mb-4"
+          className="border p-2"
         />
 
-        <div className="flex gap-3">
+        <input
+          type="number"
+          placeholder="Enter monthly budget"
+          value={budgetInput}
+          onChange={(e)=>setBudgetInput(e.target.value)}
+          className="border p-2 flex-1"
+        />
 
-          <input
-            type="number"
-            placeholder="Enter monthly budget"
-            value={budgetInput}
-            onChange={(e)=>setBudgetInput(e.target.value)}
-            className="flex-1 border rounded-lg p-3"
-          />
-
-          <button
-            onClick={handleSave}
-            className="bg-blue-500 text-white px-6 rounded-lg"
-          >
-            Save
-          </button>
-
-        </div>
+        <button
+          onClick={handleSave}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Save
+        </button>
 
       </div>
 
-      <div className="bg-white p-6 rounded-xl shadow">
+      {/* TABLE */}
 
-        <h2 className="text-lg mb-2">
-          Current Budget
-        </h2>
+      <div className="bg-white rounded shadow overflow-hidden">
 
-        <p className="text-gray-500 mb-2">
-          {formattedMonth}
-        </p>
+        <table className="w-full">
 
-        {currentBudget ? (
+          <thead className="bg-gray-100">
 
-          <div>
+            <tr>
+              <th className="p-3 text-left">Month</th>
+              <th className="p-3">Budget</th>
+              <th className="p-3">Actions</th>
+            </tr>
 
-            <h3 className="text-3xl font-bold mb-4">
-              ₹{currentBudget}
-            </h3>
+          </thead>
 
-            <div className="flex gap-3">
+          <tbody>
 
-              <button
-                onClick={handleEdit}
-                className="bg-yellow-500 text-white px-4 py-2 rounded"
-              >
-                Edit
-              </button>
+            {currentBudget ? (
 
-              <button
-                onClick={handleDelete}
-                className="bg-red-500 text-white px-4 py-2 rounded"
-              >
-                Delete
-              </button>
+              <tr className="border-t">
 
-            </div>
+                <td className="p-3">
+                  {formattedMonth}
+                </td>
 
-          </div>
+                <td className="p-3 font-semibold">
+                  ₹{currentBudget}
+                </td>
 
-        ) : (
+                <td className="p-3 flex gap-2">
 
-          <p className="text-gray-500">
-            No budget set for this month.
-          </p>
+                  <button
+                    onClick={handleEdit}
+                    className="bg-yellow-400 px-3 py-1 rounded"
+                  >
+                    Edit
+                  </button>
 
-        )}
+                  <button
+                    onClick={handleDelete}
+                    className="bg-red-500 text-white px-3 py-1 rounded"
+                  >
+                    Delete
+                  </button>
+
+                </td>
+
+              </tr>
+
+            ) : (
+
+              <tr>
+
+                <td colSpan="3" className="p-4 text-center text-gray-500">
+                  No budget set for this month
+                </td>
+
+              </tr>
+
+            )}
+
+          </tbody>
+
+        </table>
 
       </div>
 
     </div>
 
   );
+
 }
 
 export default Budgets;

@@ -15,9 +15,7 @@ const Dashboard = () => {
   const { dashboard, fetchDashboard, loading } = useFinance();
 
   useEffect(() => {
-
     fetchDashboard();
-
   }, []);
 
   if (loading || !dashboard) return <p>Loading...</p>;
@@ -44,7 +42,7 @@ const Dashboard = () => {
 
       {/* CARDS */}
 
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 
         <div className="bg-green-100 p-4 rounded">
           <h3>Income</h3>
@@ -68,49 +66,59 @@ const Dashboard = () => {
 
       </div>
 
-      {/* INCOME VS EXPENSE */}
+      {/* CHARTS SECTION */}
 
-      <div className="bg-white p-6 rounded shadow mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 
-        <h2 className="mb-4 font-semibold">
-          Income vs Expense
-        </h2>
+        {/* INCOME VS EXPENSE */}
 
-        <ResponsiveContainer width="100%" height={300}>
+        <div className="bg-white p-6 rounded shadow">
 
-          <PieChart>
+          <h2 className="mb-4 font-semibold">
+            Income vs Expense
+          </h2>
 
-            <Pie
-              data={data}
-              dataKey="value"
-              outerRadius={120}
-              label
-            >
+          <ResponsiveContainer width="100%" height={300}>
 
-              {data.map((entry, index) => (
-                <Cell
-                  key={index}
-                  fill={COLORS[index]}
-                />
-              ))}
+            <PieChart>
 
-            </Pie>
+              <Pie
+                data={data}
+                dataKey="value"
+                outerRadius={120}
+                label
+              >
 
-            <Tooltip />
+                {data.map((entry, index) => (
+                  <Cell
+                    key={index}
+                    fill={COLORS[index]}
+                  />
+                ))}
 
-          </PieChart>
+              </Pie>
 
-        </ResponsiveContainer>
+              <Tooltip />
+
+            </PieChart>
+
+          </ResponsiveContainer>
+
+        </div>
+
+        {/* EXPENSE CATEGORY */}
+
+        <div className="bg-white p-6 rounded shadow">
+
+          <ExpenseChart />
+
+        </div>
 
       </div>
 
-      {/* EXPENSE CATEGORY */}
-
-      <ExpenseChart />
-
       {/* BUDGET BAR */}
 
-      <div className="bg-white p-6 rounded shadow mt-6">
+      <div className="bg-white p-6 rounded shadow">
 
         <h2 className="mb-3 font-semibold">
           Budget Usage
@@ -126,9 +134,7 @@ const Dashboard = () => {
         </div>
 
         <p className="mt-2 text-sm">
-
           ₹{dashboard.expense} of ₹{dashboard.budget} used
-
         </p>
 
       </div>

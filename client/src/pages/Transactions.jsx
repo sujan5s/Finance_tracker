@@ -137,23 +137,33 @@ const Transactions = () => {
 
         {/* CATEGORY ONLY FOR EXPENSE */}
 
-        {type === "expense" && (
+        <select
+  value={form.category}
+  onChange={(e) =>
+    setForm({ ...form, category: e.target.value })
+  }
+  className="border p-2"
+>
 
-          <select
-            value={form.category}
-            onChange={(e) =>
-              setForm({ ...form, category: e.target.value })
-            }
-            className="border p-2"
-          >
-            <option value="Food">Food</option>
-            <option value="Transport">Transport</option>
-            <option value="Shopping">Shopping</option>
-            <option value="Bills">Bills</option>
-            <option value="Entertainment">Entertainment</option>
-          </select>
+  {type === "expense" ? (
+    <>
+      <option value="Food">Food</option>
+      <option value="Transport">Transport</option>
+      <option value="Shopping">Shopping</option>
+      <option value="Bills">Bills</option>
+      <option value="Entertainment">Entertainment</option>
+    </>
+  ) : (
+    <>
+      <option value="Salary">Salary</option>
+      <option value="Freelance">Freelance</option>
+      <option value="Investment">Investment</option>
+      <option value="Business">Business</option>
+      <option value="Other">Other</option>
+    </>
+  )}
 
-        )}
+</select>
 
         <input
           type="date"

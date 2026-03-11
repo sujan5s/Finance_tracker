@@ -35,9 +35,10 @@ model RecurringTransaction {
   title     String
   amount    Float
   type      String
-  category  String
+  category  String?
   frequency String
   startDate DateTime
+  userId    Int
 }
 
 model Budget {

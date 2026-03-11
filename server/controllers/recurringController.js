@@ -1,33 +1,90 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../config/prisma.js";
 
 export const getRecurring = async (req, res) => {
-
   try {
 
-    const data = await prisma.recurringTransaction.findMany();
+    const recurring = await prisma.recurringTransaction.findMany({
+      where: {
+        userId: req.user.id
+      },
+      orderBy: {
+        startDate: "desc"
+      }
+    });
 
-    res.json(data);
+    res.json(recurring);
 
-  } catch (error) {
+  } catch (err) {
 
-    res.status(500).json({ error: error.message });
+    console.error("Recurring Fetch Error:", err);
+
+    res.status(500).json({
+      message: "Failed to fetch recurring transactions"
+    });
 
   }
-
 };
 
-export const addRecurring = async (req, res) => {
 
+export const addRecurring = async (req, res) => {
   try {
 
-    const { title, amount, type, category, frequency, startDate } = req.body;
+    const {
+      title,
+      amount,
+      type,
+      category,
+      frequency,
+      startDate
+    } = req.body;
 
     const recurring = await prisma.recurringTransaction.create({
       data: {
         title,
-        amount: parseFloat(amount),
+        amount: Number(amount),
+        type,
+        category,
+        frequency,
+        startDate: new Date(startDate),
+        userId: req.user.id
+      }
+    });
+
+    res.status(201).json(recurring);
+
+  } catch (err) {
+
+    console.error("Add Recurring Error:", err);
+
+    res.status(500).json({
+      message: "Failed to add recurring"
+    });
+
+  }
+};
+
+
+export const updateRecurring = async (req, res) => {
+  try {
+
+    const { id } = req.params;
+
+    const {
+      title,
+      amount,
+      type,
+      category,
+      frequency,
+      startDate
+    } = req.body;
+
+    const recurring = await prisma.recurringTransaction.update({
+      where: {
+        id: Number(id)
+      },
+      data: {
+        title,
+        amount: Number(amount),
         type,
         category,
         frequency,
@@ -37,30 +94,40 @@ export const addRecurring = async (req, res) => {
 
     res.json(recurring);
 
-  } catch (error) {
+  } catch (err) {
 
-    res.status(500).json({ error: error.message });
+    console.error("Update Recurring Error:", err);
 
-  }
-
-};
-
-export const deleteRecurring = async (req, res) => {
-
-  try {
-
-    const id = parseInt(req.params.id);
-
-    await prisma.recurringTransaction.delete({
-      where: { id }
+    res.status(500).json({
+      message: "Failed to update recurring"
     });
 
-    res.json({ message: "Recurring deleted" });
+  }
+};
 
-  } catch (error) {
 
-    res.status(500).json({ error: error.message });
+export const deleteRecurring = async (req, res) => {
+  try {
+
+    const { id } = req.params;
+
+    await prisma.recurringTransaction.delete({
+      where: {
+        id: Number(id)
+      }
+    });
+
+    res.json({
+      message: "Recurring deleted"
+    });
+
+  } catch (err) {
+
+    console.error("Delete Recurring Error:", err);
+
+    res.status(500).json({
+      message: "Failed to delete recurring"
+    });
 
   }
-
 };
