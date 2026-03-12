@@ -1,239 +1,231 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useFinance } from "../context/FinanceContext";
+import { Save, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 
-function Budgets() {
+const API = "http://localhost:5000/api";
 
-  const { selectedMonth, setSelectedMonth } = useFinance();
+const inputStyle = {
+  background: "var(--bg-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+  color: "var(--text-primary)",
+  padding: "8px 12px",
+  fontSize: 14,
+  outline: "none",
+};
 
-  const [budgetInput,setBudgetInput] = useState("");
-  const [currentBudget,setCurrentBudget] = useState(null);
-  const [budgetId,setBudgetId] = useState(null);
+export default function Budgets() {
+  const { selectedMonth, setSelectedMonth, dashboard, fetchDashboard } = useFinance();
+
+  const [budgetInput, setBudgetInput] = useState("");
+  const [currentBudget, setCurrentBudget] = useState(null);
+  const [budgetId, setBudgetId] = useState(null);
+  const [editing, setEditing] = useState(false);
 
   const month = Number(selectedMonth.split("-")[1]);
-  const year = Number(selectedMonth.split("-")[0]);
+  const year  = Number(selectedMonth.split("-")[0]);
 
-  useEffect(()=>{
+  const formattedMonth = new Date(selectedMonth + "-01").toLocaleString("default", { month: "long", year: "numeric" });
+
+  const navMonth = (dir) => {
+    const d = new Date(selectedMonth + "-01");
+    d.setMonth(d.getMonth() + dir);
+    setSelectedMonth(d.toISOString().slice(0, 7));
+  };
+
+  useEffect(() => {
     fetchBudget();
-  },[selectedMonth]);
+    fetchDashboard();
+  }, [selectedMonth]);
 
-  const fetchBudget = async ()=>{
-
-    try{
-
+  const fetchBudget = async () => {
+    try {
       const token = localStorage.getItem("token");
-
-      const res = await axios.get(
-        `http://localhost:5000/api/budget?month=${month}&year=${year}`,
-        {
-          headers:{
-            Authorization:`Bearer ${token}`
-          }
-        }
-      );
-
-      if(res.data){
-
+      const res = await axios.get(`${API}/budget?month=${month}&year=${year}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.data) {
         setCurrentBudget(res.data.amount);
         setBudgetId(res.data.id);
-
-      }else{
-
+      } else {
         setCurrentBudget(null);
         setBudgetId(null);
-
       }
-
-    }catch(err){
-
+    } catch {
       setCurrentBudget(null);
       setBudgetId(null);
-
     }
-
   };
 
-  const handleSave = async ()=>{
-
-    if(!budgetInput) return;
-
+  const handleSave = async () => {
+    if (!budgetInput) return;
     const token = localStorage.getItem("token");
-
-    try{
-
-      await axios.post(
-        "http://localhost:5000/api/budget",
-        {
-          amount:budgetInput,
-          month,
-          year
-        },
-        {
-          headers:{
-            Authorization:`Bearer ${token}`
-          }
-        }
-      );
-
-      setCurrentBudget(budgetInput);
+    try {
+      await axios.post(`${API}/budget`, { amount: Number(budgetInput), month, year }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      await fetchBudget();
+      await fetchDashboard();
       setBudgetInput("");
-
-      fetchBudget();
-
-    }catch(err){
-
-      console.log(err);
-
+      setEditing(false);
+    } catch (err) {
+      console.error(err);
     }
-
   };
 
-  const handleEdit = ()=>{
-
-    setBudgetInput(currentBudget);
-
-  };
-
-  const handleDelete = async ()=>{
-
-    if(!budgetId) return;
-
+  const handleDelete = async () => {
+    if (!budgetId) return;
     const token = localStorage.getItem("token");
-
-    try{
-
-      await axios.delete(
-        `http://localhost:5000/api/budget/${budgetId}`,
-        {
-          headers:{
-            Authorization:`Bearer ${token}`
-          }
-        }
-      );
-
+    try {
+      await axios.delete(`${API}/budget/${budgetId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setCurrentBudget(null);
-      setBudgetInput("");
       setBudgetId(null);
-
-    }catch(err){
-
-      console.log(err);
-
+      fetchDashboard();
+    } catch (err) {
+      console.error(err);
     }
-
   };
 
-  const formattedMonth = new Date(selectedMonth+"-01")
-  .toLocaleString("default",{month:"long",year:"numeric"});
+  const spent    = dashboard?.expense || 0;
+  const budget   = currentBudget ? Number(currentBudget) : 0;
+  const remaining = budget - spent;
+  const usedPct  = budget > 0 ? Math.min((spent / budget) * 100, 100) : 0;
+  const isOver   = remaining < 0;
 
-  return(
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
 
-    <div className="p-6">
-
-      <h1 className="text-2xl font-bold mb-6">
-        Budgets
-      </h1>
-
-      {/* FORM */}
-
-      <div className="bg-white p-4 rounded shadow mb-6 flex gap-3 flex-wrap">
-
-        <input
-          type="month"
-          value={selectedMonth}
-          onChange={(e)=>setSelectedMonth(e.target.value)}
-          className="border p-2"
-        />
-
-        <input
-          type="number"
-          placeholder="Enter monthly budget"
-          value={budgetInput}
-          onChange={(e)=>setBudgetInput(e.target.value)}
-          className="border p-2 flex-1"
-        />
-
-        <button
-          onClick={handleSave}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Save
-        </button>
-
+      {/* Header */}
+      <div>
+        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: "var(--text-primary)" }}>Monthly Budgets</h1>
+        <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--text-secondary)" }}>
+          Track and manage your spending limits for {formattedMonth}.
+        </p>
       </div>
 
-      {/* TABLE */}
+      {/* Month Selector + Quick Budget Set */}
+      <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "20px 24px" }}>
+        <div style={{ display: "flex", gap: 24, flexWrap: "wrap", alignItems: "flex-end" }}>
 
-      <div className="bg-white rounded shadow overflow-hidden">
+          {/* Month nav */}
+          <div>
+            <p style={{ margin: "0 0 8px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--text-secondary)" }}>Selected Month</p>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <button onClick={() => navMonth(-1)} style={{ width: 28, height: 28, borderRadius: 6, border: "1px solid var(--border-color)", background: "var(--bg-primary)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-secondary)" }}>
+                <ChevronLeft size={14} />
+              </button>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)", minWidth: 120, textAlign: "center" }}>{formattedMonth}</span>
+              <button onClick={() => navMonth(1)} style={{ width: 28, height: 28, borderRadius: 6, border: "1px solid var(--border-color)", background: "var(--bg-primary)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-secondary)" }}>
+                <ChevronRight size={14} />
+              </button>
+            </div>
+          </div>
 
-        <table className="w-full">
-
-          <thead className="bg-gray-100">
-
-            <tr>
-              <th className="p-3 text-left">Month</th>
-              <th className="p-3">Budget</th>
-              <th className="p-3">Actions</th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {currentBudget ? (
-
-              <tr className="border-t">
-
-                <td className="p-3">
-                  {formattedMonth}
-                </td>
-
-                <td className="p-3 font-semibold">
-                  ₹{currentBudget}
-                </td>
-
-                <td className="p-3 flex gap-2">
-
-                  <button
-                    onClick={handleEdit}
-                    className="bg-yellow-400 px-3 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={handleDelete}
-                    className="bg-red-500 text-white px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-
-                </td>
-
-              </tr>
-
-            ) : (
-
-              <tr>
-
-                <td colSpan="3" className="p-4 text-center text-gray-500">
-                  No budget set for this month
-                </td>
-
-              </tr>
-
-            )}
-
-          </tbody>
-
-        </table>
-
+          {/* Budget input */}
+          <div style={{ flex: 1, minWidth: 200 }}>
+            <p style={{ margin: "0 0 8px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--text-secondary)" }}>Quick Budget Set</p>
+            <div style={{ display: "flex", gap: 8 }}>
+              <div style={{ position: "relative", flex: 1 }}>
+                <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "var(--text-secondary)", fontSize: 13 }}>₹</span>
+                <input
+                  type="number"
+                  placeholder="Enter amount"
+                  value={budgetInput}
+                  onChange={e => setBudgetInput(e.target.value)}
+                  style={{ ...inputStyle, paddingLeft: 24, width: "100%" }}
+                />
+              </div>
+              <button
+                onClick={handleSave}
+                style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}
+              >
+                <Save size={14} /> Save
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Active Budget */}
+      {currentBudget && (
+        <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, overflow: "hidden" }}>
+          <div style={{ padding: "16px 24px", borderBottom: "1px solid var(--border-color)" }}>
+            <h2 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>Active Budget</h2>
+          </div>
+
+          {/* Table header */}
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
+                  {["Month", "Budgeted", "Spent", "Remaining", "Usage", "Actions"].map(h => (
+                    <th key={h} style={{ padding: "10px 20px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--accent-green)" }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={{ padding: "16px 20px", fontSize: 14, fontWeight: 600, color: "var(--text-primary)" }}>{formattedMonth}</td>
+                  <td style={{ padding: "16px 20px", fontSize: 14, color: "var(--text-primary)" }}>₹{Number(budget).toFixed(2)}</td>
+                  <td style={{ padding: "16px 20px", fontSize: 14, color: "var(--text-primary)" }}>₹{spent.toFixed(2)}</td>
+                  <td style={{ padding: "16px 20px", fontSize: 14, fontWeight: 700, color: isOver ? "var(--accent-red)" : "var(--accent-green)" }}>
+                    {isOver ? "-" : ""}₹{Math.abs(remaining).toFixed(2)}
+                    {isOver && <div style={{ fontSize: 10, color: "var(--accent-red)", fontWeight: 600 }}>Over budget</div>}
+                  </td>
+                  <td style={{ padding: "16px 20px", minWidth: 140 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{ flex: 1, height: 6, background: "var(--border-color)", borderRadius: 3, overflow: "hidden" }}>
+                        <div style={{ width: `${usedPct}%`, height: "100%", background: isOver ? "var(--accent-red)" : usedPct > 80 ? "var(--accent-yellow)" : "var(--accent-green)", borderRadius: 3 }} />
+                      </div>
+                      <span style={{ fontSize: 11, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>{Math.round(usedPct)}% used</span>
+                    </div>
+                  </td>
+                  <td style={{ padding: "16px 20px" }}>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <button
+                        onClick={() => { setBudgetInput(currentBudget); setEditing(true); }}
+                        style={{ width: 30, height: 30, borderRadius: 6, background: "var(--bg-primary)", border: "1px solid var(--border-color)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-secondary)" }}
+                      >
+                        <Pencil size={13} />
+                      </button>
+                      <button
+                        onClick={handleDelete}
+                        style={{ width: 30, height: 30, borderRadius: 6, background: "rgba(248,113,113,0.1)", border: "1px solid var(--accent-red)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-red)" }}
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Summary cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+        {[
+          { label: "Total Monthly Budget", value: `₹${Number(budget).toFixed(2)}`, color: "var(--text-primary)" },
+          { label: "Total Spent",           value: `₹${spent.toFixed(2)}`,          color: "var(--accent-red)" },
+          { label: "Remaining Total",       value: `${isOver ? "-" : ""}₹${Math.abs(remaining).toFixed(2)}`, color: isOver ? "var(--accent-red)" : "var(--accent-green)" },
+        ].map(s => (
+          <div key={s.label} style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "18px 20px" }}>
+            <p style={{ margin: "0 0 8px", fontSize: 12, color: "var(--text-secondary)", fontWeight: 500 }}>{s.label}</p>
+            <p style={{ margin: 0, fontSize: 22, fontWeight: 800, color: s.color }}>{s.value}</p>
+          </div>
+        ))}
+      </div>
+
+      {!currentBudget && (
+        <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "40px", textAlign: "center", color: "var(--text-secondary)" }}>
+          No budget set for {formattedMonth}. Enter an amount above and click Save to get started.
+        </div>
+      )}
 
     </div>
-
   );
-
 }
-
-export default Budgets;
