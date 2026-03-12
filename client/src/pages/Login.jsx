@@ -25,89 +25,92 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d1611] flex flex-col items-center justify-center p-4 text-white">
-      <div className="flex items-center gap-2 mb-2">
-        <div className="bg-[#00d05e] p-1.5 rounded-lg">
-          <Wallet className="w-6 h-6 text-black" />
-        </div>
-        <h1 className="text-xl font-bold tracking-tight">Finance Tracker</h1>
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden p-4 font-sans text-slate-100 antialiased bg-[#102216]">
+      {/* Background gradients from Stitch */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#102216] via-[#142e1d] to-[#102216]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-[#0bda50]/10 blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-[#0bda50]/5 blur-[120px]"></div>
       </div>
-      <p className="text-gray-400 text-sm mb-8">Welcome back, please sign in to your account</p>
 
-      <div className="bg-[#131b17] p-8 rounded-2xl w-full max-w-md shadow-2xl border border-gray-800/50 flex flex-col items-center">
-        <h2 className="text-2xl font-bold mb-1 w-full text-left">Welcome Back</h2>
-        <p className="text-gray-400 text-sm mb-6 w-full text-left">Sign in to continue to Finance Tracker</p>
-
-        <form onSubmit={handleLogin} className="space-y-5 w-full">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="h-5 w-5 text-gray-500" />
-              </div>
-              <input
-                type="email"
-                placeholder="name@example.com"
-                className="block w-full pl-10 pr-3 py-3 border border-gray-800 rounded-xl leading-5 bg-[#1a231e] text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#00d05e] focus:border-[#00d05e] sm:text-sm transition-colors"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+      <div className="relative z-10 w-full max-w-[480px]">
+        {/* Header Logo */}
+        <div className="flex flex-col items-center mb-8">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 text-[#0bda50] bg-[#0bda50]/10 rounded-xl flex items-center justify-center">
+              <Wallet className="w-6 h-6" />
             </div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-100">Finance Tracker</h1>
+          </div>
+          <p className="text-slate-400 text-sm">Welcome back, please sign in to your account</p>
+        </div>
+
+        {/* Form Card */}
+        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/50 rounded-2xl p-8 shadow-2xl">
+          <div className="mb-8">
+            <h2 className="text-3xl font-black text-slate-100 tracking-tight">Welcome Back</h2>
+            <p className="text-slate-400 mt-2">Sign in to continue to Finance Tracker</p>
           </div>
 
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <label className="block text-sm font-medium text-gray-300">Password</label>
-              <a href="#" className="text-sm font-medium text-[#00d05e] hover:underline">Forgot password?</a>
-            </div>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="h-5 w-5 text-gray-500" />
+          <form onSubmit={handleLogin} className="flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-slate-300 ml-1">Email Address</label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
+                <input
+                  type="email"
+                  placeholder="name@example.com"
+                  className="w-full pl-12 pr-4 py-4 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#0bda50]/50 focus:border-[#0bda50] transition-all"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                className="block w-full pl-10 pr-10 py-3 border border-gray-800 rounded-xl leading-5 bg-[#1a231e] text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#00d05e] focus:border-[#00d05e] sm:text-sm transition-colors"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between ml-1">
+                <label className="text-sm font-medium text-slate-300">Password</label>
+                <a href="#" className="text-sm font-medium text-[#0bda50] hover:underline">Forgot password?</a>
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  className="w-full pl-12 pr-12 py-4 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#0bda50]/50 focus:border-[#0bda50] transition-all"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="text-gray-500 hover:text-gray-300 focus:outline-none"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 focus:outline-none"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
             </div>
+
+            <button
+              type="submit"
+              className="w-full py-4 bg-[#0bda50] text-[#102216] font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.98] transition-all shadow-lg shadow-[#0bda50]/20 mt-4"
+            >
+              Sign In
+            </button>
+          </form>
+
+          <div className="mt-8 flex items-center justify-center gap-2 border-t border-slate-800/50 pt-6">
+            <p className="text-slate-400">Don't have an account?</p>
+            <Link to="/signup" className="text-[#0bda50] font-semibold hover:underline">Create Account</Link>
           </div>
-
-          <button
-            type="submit"
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-[0_0_15px_rgba(0,208,94,0.3)] text-sm font-semibold text-black bg-[#00d05e] hover:bg-[#00e668] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00d05e] focus:ring-offset-[#131b17] transition-all"
-          >
-            Sign In
-          </button>
-        </form>
-
-        <div className="mt-8 text-center text-sm text-gray-400">
-          Don't have an account?{' '}
-          <Link to="/signup" className="font-medium text-[#00d05e] hover:underline">
-            Create Account
-          </Link>
         </div>
+
+        <footer className="mt-8 text-center text-slate-500 text-xs">
+          © 2024 Finance Tracker Inc. Secure 256-bit SSL encrypted connection.
+        </footer>
       </div>
-      
-      <p className="mt-8 text-xs text-gray-600">
-        © 2024 Finance Tracker Inc. Secure 256-bit SSL encrypted connection.
-      </p>
     </div>
   );
 }
