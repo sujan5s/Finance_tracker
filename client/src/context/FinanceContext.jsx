@@ -18,6 +18,7 @@ export const FinanceProvider = ({ children }) => {
   const [recurring,setRecurring] = useState([]);
   const [user,setUser] = useState(null);
   const [loading,setLoading] = useState(false);
+  const [chartData,setChartData] = useState([]);
 
   const getToken = () => localStorage.getItem("token");
 
@@ -83,6 +84,22 @@ export const FinanceProvider = ({ children }) => {
 
     }
 
+  };
+
+
+  // ---------------- CHART DATA ----------------
+
+  const fetchChartData = async () => {
+    try {
+      const token = getToken();
+      const res = await axios.get(
+        `${API}/dashboard/chart-data`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setChartData(res.data);
+    } catch(err) {
+      console.log(err.response?.data || err.message);
+    }
   };
 
 
@@ -327,7 +344,9 @@ export const FinanceProvider = ({ children }) => {
         recurring,
         user,
         loading,
+        chartData,
         fetchDashboard,
+        fetchChartData,
         fetchTransactions,
         addTransaction,
         updateTransaction,
