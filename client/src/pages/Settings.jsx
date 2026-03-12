@@ -23,7 +23,8 @@ const rowStyle = {
   justifyContent: "space-between",
   padding: "14px 24px",
   borderBottom: "1px solid var(--border-color)",
-  gap: 12,
+  gap: 16,
+  flexWrap: "wrap",
 };
 const labelStyle = { fontSize: 14, fontWeight: 500, color: "var(--text-primary)" };
 const subStyle   = { fontSize: 12, color: "var(--text-secondary)", marginTop: 2 };
@@ -35,7 +36,8 @@ const inputStyle = {
   padding: "7px 12px",
   fontSize: 14,
   outline: "none",
-  width: 220,
+  width: "100%",
+  maxWidth: 260,
 };
 const toggleStyle = (on) => ({
   width: 44,

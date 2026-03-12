@@ -64,7 +64,7 @@ export default function Transactions() {
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
 
       {/* Header */}
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 16 }}>
         <div>
           <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: "var(--text-primary)" }}>Transactions</h1>
           <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--text-secondary)" }}>Manage and track your financial activities across all accounts</p>
@@ -97,26 +97,26 @@ export default function Transactions() {
             </button>
           </div>
           <form onSubmit={handleSubmit}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr auto", gap: 12, alignItems: "end" }}>
-              <div>
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", gap: 12 }}>
+              <div style={{ flex: "1 1 150px", minWidth: 150 }}>
                 <label style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-secondary)", display: "block", marginBottom: 5 }}>Title</label>
                 <input style={inputStyle} type="text" placeholder="e.g. Groceries" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} required />
               </div>
-              <div>
-                <label style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-secondary)", display: "block", marginBottom: 5 }}>Amount</label>
+              <div style={{ flex: "1 1 120px", minWidth: 120 }}>
+                <label style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-secondary)", display: "block", marginBottom: 5 }}>Amount (₹)</label>
                 <input style={inputStyle} type="number" placeholder="$ 0.00" min="0" step="0.01" value={form.amount} onChange={e => setForm({ ...form, amount: e.target.value })} required />
               </div>
-              <div>
+              <div style={{ flex: "1 1 140px", minWidth: 140 }}>
                 <label style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-secondary)", display: "block", marginBottom: 5 }}>Category</label>
                 <select style={inputStyle} value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
                   {cats.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
-              <div>
+              <div style={{ flex: "1 1 140px", minWidth: 140 }}>
                 <label style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-secondary)", display: "block", marginBottom: 5 }}>Date</label>
                 <input style={inputStyle} type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} required />
               </div>
-              <button type="submit" style={{ padding: "9px 18px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer", whiteSpace: "nowrap" }}>
+              <button type="submit" style={{ padding: "9px 18px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer", whiteSpace: "nowrap", height: 38 }}>
                 Save Entry
               </button>
             </div>

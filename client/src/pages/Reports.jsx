@@ -67,7 +67,7 @@ export default function Reports() {
     <div ref={reportRef} style={{ display: "flex", flexDirection: "column", gap: 20, padding: isExporting ? "20px" : "0", background: "var(--bg-main)" }}>
 
       {/* Header */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(0,208,94,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-green)" }}>
             <BarChart3 size={20} />
@@ -115,7 +115,7 @@ export default function Reports() {
       </div>
 
       {/* Charts row */}
-      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 16 }}>
+      <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-4">
 
         {/* Monthly trend */}
         <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "20px 24px" }}>

@@ -90,7 +90,7 @@ export default function Dashboard() {
       </div>
 
       {/* ── Charts Row ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 16 }}>
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-4">
 
         {/* Bar chart — real data from API */}
         <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "20px 24px", minWidth: 0 }}>
@@ -130,9 +130,9 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Expenses by Category — real data */}
+        {/* Category breakdown pie */}
         <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "20px 24px" }}>
-          <h2 style={{ margin: "0 0 18px", fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>Expenses by Category</h2>
+          <h2 style={{ margin: "0 0 16px", fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>Monthly Spending</h2>
           {categories.length === 0 ? (
             <p style={{ color: "var(--text-secondary)", fontSize: 13, textAlign: "center", marginTop: 40 }}>
               No expense data for this month.
@@ -162,7 +162,7 @@ export default function Dashboard() {
 
       {/* ── Recent Transactions ── */}
       <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, overflow: "hidden" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px", borderBottom: "1px solid var(--border-color)" }}>
+        <div style={{ padding: "16px 24px", borderBottom: "1px solid var(--border-color)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <h2 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>Recent Transactions</h2>
           <div style={{ display: "flex", gap: 8 }}>
             <button style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, padding: "5px 10px", border: "1px solid var(--border-color)", borderRadius: 6, background: "transparent", color: "var(--text-secondary)", cursor: "pointer" }}>

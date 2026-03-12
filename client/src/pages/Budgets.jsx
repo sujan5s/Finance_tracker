@@ -108,7 +108,8 @@ export default function Budgets() {
 
       {/* Month Selector + Quick Budget Set */}
       <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "20px 24px" }}>
-        <div style={{ display: "flex", gap: 24, flexWrap: "wrap", alignItems: "flex-end" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
 
           {/* Month nav */}
           <div>
@@ -123,11 +124,12 @@ export default function Budgets() {
               </button>
             </div>
           </div>
+          </div>
 
           {/* Budget input */}
-          <div style={{ flex: 1, minWidth: 200 }}>
-            <p style={{ margin: "0 0 8px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--text-secondary)" }}>Quick Budget Set</p>
-            <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", gap: 12, flex: 1, minWidth: 280 }}>
+            <div style={{ flex: 1, minWidth: 200 }}>
+              <p style={{ margin: "0 0 8px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--text-secondary)" }}>Quick Budget Set</p>
               <div style={{ position: "relative", flex: 1 }}>
                 <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "var(--text-secondary)", fontSize: 13 }}>₹</span>
                 <input
@@ -138,17 +140,13 @@ export default function Budgets() {
                   style={{ ...inputStyle, paddingLeft: 24, width: "100%" }}
                 />
               </div>
-              <button
-                onClick={handleSave}
-                style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}
-              >
-                <Save size={14} /> Save
-              </button>
             </div>
+            <button onClick={handleSave} style={{ padding: "9px 18px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 13, border: "none", cursor: "pointer", height: 38, whiteSpace: "nowrap" }}>
+              <Save size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} /> Save
+            </button>
           </div>
         </div>
       </div>
-
       {/* Active Budget */}
       {currentBudget && (
         <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, overflow: "hidden" }}>

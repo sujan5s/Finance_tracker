@@ -92,10 +92,12 @@ export default function Recurring() {
       {/* Schedule Form */}
       {showForm && (
         <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "20px 24px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <h2 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>
-              ⚡ Schedule New Transaction
-            </h2>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 16 }}>
+            <div>
+              <h2 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>
+                ⚡ Schedule New Transaction
+              </h2>
+            </div>
             <button onClick={resetForm} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-secondary)" }}>
               <X size={18} />
             </button>
