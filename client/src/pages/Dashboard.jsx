@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useFinance } from "../context/FinanceContext";
 import { TrendingUp, TrendingDown, Target, PiggyBank, Filter } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { getCategoryColor, CategoryIcon, CategoryBadge } from "../utils/categories";
 
 const fmtINR = (n) => {
   const v = Math.abs(n ?? 0);
@@ -13,16 +14,7 @@ const fmtDate = (d) => {
   return new Date(d).toLocaleDateString("en-IN", { month: "short", day: "2-digit", year: "numeric" });
 };
 
-const CATEGORY_COLORS = {
-  "Food":        "#22d3ee",
-  "Transport":   "#f59e0b",
-  "Shopping":    "#a855f7",
-  "Bills":       "#3b82f6",
-  "Entertainment":"#ec4899",
-  "Health":      "#10b981",
-  "Salary":      "#00d05e",
-  "Other":       "#6b7280",
-};
+
 
 export default function Dashboard() {
   const {
@@ -149,7 +141,7 @@ export default function Dashboard() {
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {categories.map(([name, amount]) => {
                 const pct = Math.round((amount / maxCat) * 100);
-                const color = CATEGORY_COLORS[name] || "#6b7280";
+                const color = getCategoryColor(name);
                 return (
                   <div key={name}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
@@ -157,7 +149,7 @@ export default function Dashboard() {
                       <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>{fmtINR(amount)}</span>
                     </div>
                     <div style={{ height: 5, background: "var(--border-color)", borderRadius: 3, overflow: "hidden" }}>
-                      <div style={{ width: `${pct}%`, height: "100%", background: color, borderRadius: 3 }} />
+                      <div style={{ width: `${pct}%`, height: "100%", background: getCategoryColor(name), borderRadius: 3 }} />
                     </div>
                   </div>
                 );
@@ -204,16 +196,12 @@ export default function Dashboard() {
                     <tr key={txn.id || i} style={{ borderBottom: "1px solid var(--border-color)" }}>
                       <td style={{ padding: "14px 20px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                          <div style={{ width: 32, height: 32, borderRadius: 8, background: isIncome ? "rgba(0,208,94,0.12)" : "rgba(248,113,113,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
-                            {isIncome ? "💰" : "🛒"}
-                          </div>
+                          <CategoryIcon category={txn.category || (isIncome ? "Income" : "Other")} size={34} />
                           <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>{txn.title}</span>
                         </div>
                       </td>
                       <td style={{ padding: "14px 20px" }}>
-                        <span style={{ padding: "3px 8px", borderRadius: 4, fontSize: 11, fontWeight: 700, background: "var(--bg-primary)", color: "var(--text-secondary)", border: "1px solid var(--border-color)" }}>
-                          {txn.category || (isIncome ? "Income" : "General")}
-                        </span>
+                        <CategoryBadge category={txn.category || (isIncome ? "Income" : "Other")} />
                       </td>
                       <td style={{ padding: "14px 20px", fontSize: 13, color: "var(--text-secondary)" }}>{fmtDate(txn.date)}</td>
                       <td style={{ padding: "14px 20px", fontSize: 13, fontWeight: 700, color: isIncome ? "var(--accent-green)" : "var(--accent-red)" }}>

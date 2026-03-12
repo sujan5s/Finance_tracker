@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
 import { useFinance } from "../context/FinanceContext";
 import { Plus, Pencil, Trash2, X, RefreshCw } from "lucide-react";
+import { CategoryIcon } from "../utils/categories";
 
 const CATEGORIES  = ["Bills", "Subscription", "Rent", "Salary", "Utilities", "Health", "Entertainment", "Other"];
 const FREQUENCIES = ["daily", "weekly", "monthly", "yearly"];
-
-const ICONS = {
-  Bills:        "⚡",
-  Subscription: "📺",
-  Rent:         "🏠",
-  Salary:       "💼",
-  Utilities:    "💡",
-  Health:       "🏥",
-  Entertainment:"🎮",
-  Other:        "🔄",
-};
 
 const inputStyle = {
   background: "var(--bg-primary)",
@@ -185,19 +175,11 @@ export default function Recurring() {
               ) : (
                 recurring.map((r) => {
                   const isIncome = r.type === "income";
-                  const icon = ICONS[r.category] || "🔄";
                   return (
                     <tr key={r.id} style={{ borderBottom: "1px solid var(--border-color)" }}>
                       <td style={{ padding: "14px 20px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                          <div style={{
-                            width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                            background: isIncome ? "rgba(0,208,94,0.15)" : "rgba(248,113,113,0.15)",
-                            display: "flex", alignItems: "center", justifyContent: "center",
-                            fontSize: 18,
-                          }}>
-                            {icon}
-                          </div>
+                          <CategoryIcon category={r.category || "Other"} size={36} />
                           <div>
                             <div style={{ fontWeight: 600, fontSize: 14, color: "var(--text-primary)" }}>{r.title}</div>
                             <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>

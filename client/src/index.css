@@ -62,6 +62,29 @@ input, button, a { transition: none; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
 
+/* ── Calendar / date-picker icon colour fix ── */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="month"]::-webkit-calendar-picker-indicator {
+  filter: invert(0);
+  cursor: pointer;
+  opacity: 0.7;
+}
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="month"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);   /* makes the icon white in dark mode */
+  opacity: 0.8;
+}
+
+/* Date/month input consistent colours */
+input[type="date"],
+input[type="month"] {
+  color-scheme: light;
+}
+.dark input[type="date"],
+.dark input[type="month"] {
+  color-scheme: dark;
+}
+
 /* Utility classes */
 .card {
   background: var(--bg-surface);

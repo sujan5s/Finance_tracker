@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFinance } from "../context/FinanceContext";
-import { Plus, Pencil, Trash2, X, Check } from "lucide-react";
+import { Plus, Pencil, Trash2, X } from "lucide-react";
+import { CategoryIcon, CategoryBadge } from "../utils/categories";
 
 const EXPENSE_CATS = ["Food", "Transport", "Shopping", "Bills", "Entertainment", "Health", "Other"];
 const INCOME_CATS  = ["Salary", "Freelance", "Investment", "Business", "Other"];
@@ -129,15 +130,17 @@ export default function Transactions() {
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
-                {["Date", "Transaction", "Category", "Type", "Amount", "Actions"].map(h => (
-                  <th key={h} style={{ padding: "11px 20px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--accent-green)" }}>{h}</th>
-                ))}
+                <th style={{ width: "35%", padding: "11px 20px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--accent-green)" }}>Transaction & Date</th>
+                <th style={{ width: "20%", padding: "11px 20px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--accent-green)" }}>Category</th>
+                <th style={{ width: "20%", padding: "11px 20px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--accent-green)" }}>Type</th>
+                <th style={{ width: "15%", padding: "11px 20px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--accent-green)" }}>Amount</th>
+                <th style={{ width: "10%", padding: "11px 20px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--accent-green)" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {transactions.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{ padding: "48px 20px", textAlign: "center", color: "var(--text-secondary)", fontSize: 14 }}>
+                  <td colSpan={5} style={{ padding: "48px 20px", textAlign: "center", color: "var(--text-secondary)", fontSize: 14 }}>
                     No transactions for this month. Click "Add Income" or "Add Expense" to get started.
                   </td>
                 </tr>
@@ -146,14 +149,19 @@ export default function Transactions() {
                   const isIncome = t.type === "income";
                   return (
                     <tr key={t.id} style={{ borderBottom: "1px solid var(--border-color)" }}>
-                      <td style={{ padding: "14px 20px", fontSize: 13, color: "var(--text-secondary)" }}>{fmtDate(t.date)}</td>
                       <td style={{ padding: "14px 20px" }}>
-                        <div style={{ fontWeight: 600, fontSize: 14, color: "var(--text-primary)" }}>{t.title}</div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                          <CategoryIcon category={t.category || (isIncome ? "Income" : "Other")} size={34} />
+                          <div>
+                            <div style={{ fontWeight: 600, fontSize: 14, color: "var(--text-primary)" }}>{t.title}</div>
+                            <div style={{ fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>
+                              {fmtDate(t.date)}
+                            </div>
+                          </div>
+                        </div>
                       </td>
                       <td style={{ padding: "14px 20px" }}>
-                        <span style={{ padding: "2px 8px", borderRadius: 4, fontSize: 11, fontWeight: 700, background: "var(--bg-primary)", color: "var(--text-secondary)", border: "1px solid var(--border-color)" }}>
-                          {t.category || (isIncome ? "Income" : "General")}
-                        </span>
+                        <CategoryBadge category={t.category || (isIncome ? "Income" : "Other")} />
                       </td>
                       <td style={{ padding: "14px 20px" }}>
                         <span style={{

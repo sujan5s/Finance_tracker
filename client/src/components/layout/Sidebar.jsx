@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useFinance } from "../../context/FinanceContext";
-import { LayoutDashboard, ArrowRightLeft, Wallet, RefreshCw, BarChart3, Settings, LogOut, CreditCard, Rocket, X } from "lucide-react";
+import { LayoutDashboard, ArrowRightLeft, Wallet, RefreshCw, BarChart3, Settings, LogOut, CreditCard, X } from "lucide-react";
 
 const NAV = [
   { to: "/dashboard",    icon: LayoutDashboard, label: "Dashboard" },
@@ -10,8 +10,8 @@ const NAV = [
 ];
 
 const BOTTOM_NAV = [
-  { to: "#", icon: BarChart3, label: "Reports" },
-  { to: "#", icon: Settings,  label: "Settings" },
+  { to: "/reports",  icon: BarChart3, label: "Reports" },
+  { to: "/settings", icon: Settings,  label: "Settings" },
 ];
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
@@ -144,27 +144,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
       {/* ── Bottom ── */}
       <div style={{ padding: "14px 12px 18px", borderTop: "1px solid var(--border-color)" }}>
-        <button
-          style={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-            padding: "10px",
-            borderRadius: 8,
-            background: "var(--accent-green)",
-            color: "#fff",
-            fontWeight: 700,
-            fontSize: 13,
-            border: "none",
-            cursor: "pointer",
-            marginBottom: 6,
-          }}
-        >
-          <Rocket size={14} />
-          Upgrade Plan
-        </button>
         <button
           onClick={logout}
           style={{
