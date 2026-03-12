@@ -10,11 +10,16 @@ const authMiddleware = (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
+  if (!token) {
+    return res.status(401).json({ message: "Invalid token format" });
+  }
+
   try {
 
     const decoded = jwt.verify(token, "secret123");
 
-    req.userId = decoded.id;
+    // FIX
+    req.user = { id: decoded.id };
 
     next();
 

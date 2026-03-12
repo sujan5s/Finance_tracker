@@ -1,28 +1,105 @@
 import { Link } from "react-router-dom";
+import { useFinance } from "../../context/FinanceContext";
 
-const Sidebar = ({ closeSidebar }) => {
+function Sidebar({ sidebarOpen, setSidebarOpen }) {
+
+  const { user } = useFinance();
+
+  const handleClick = () => {
+    setSidebarOpen(false);
+  };
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("token");
+
+    window.location.href = "/login";
+
+  };
+
   return (
-    <div className="h-full p-6">
-      <h1 className="text-2xl font-bold text-rose-500 mb-10">
-        FinanceTracker
-      </h1>
 
-      <nav className="flex flex-col gap-6 text-gray-600">
-        <Link to="/" onClick={closeSidebar}>
-          Dashboard
-        </Link>
-        <Link to="/transactions" onClick={closeSidebar}>
-          Transactions
-        </Link>
-        <Link to="/budgets" onClick={closeSidebar}>
-          Budgets
-        </Link>
-        <Link to="/recurring" onClick={closeSidebar}>
-          Recurring Transactions
-        </Link>
-      </nav>
+    <div
+      className={`bg-white shadow h-screen flex flex-col justify-between transition-all duration-300
+      ${sidebarOpen ? "w-64" : "w-0 overflow-hidden"}`}
+    >
+
+      <div>
+
+        <div className="p-6 font-bold text-xl border-b">
+          FinanceTracker
+        </div>
+
+        <nav className="flex flex-col p-4 gap-3">
+
+          <Link
+            to="/dashboard"
+            onClick={handleClick}
+            className="hover:bg-gray-100 p-2 rounded"
+          >
+            Dashboard
+          </Link>
+
+          <Link
+            to="/transactions"
+            onClick={handleClick}
+            className="hover:bg-gray-100 p-2 rounded"
+          >
+            Transactions
+          </Link>
+
+          <Link
+            to="/budgets"
+            onClick={handleClick}
+            className="hover:bg-gray-100 p-2 rounded"
+          >
+            Budgets
+          </Link>
+
+          <Link
+            to="/recurring"
+            onClick={handleClick}
+            className="hover:bg-gray-100 p-2 rounded"
+          >
+            Recurring Transactions
+          </Link>
+
+        </nav>
+
+      </div>
+
+
+      {/* PROFILE + LOGOUT */}
+
+      <div className="p-4 border-t">
+
+        {user && (
+          <div className="mb-3">
+
+            <p className="font-semibold">
+              {user.name}
+            </p>
+
+            <p className="text-sm text-gray-500">
+              {user.email}
+            </p>
+
+          </div>
+        )}
+
+        <button
+          onClick={handleLogout}
+          className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600"
+        >
+          Logout
+        </button>
+
+      </div>
+
     </div>
+
   );
-};
+
+}
 
 export default Sidebar;

@@ -1,58 +1,136 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../config/prisma.js";
 
-const prisma = new PrismaClient();
+// GET TRANSACTIONS BY MONTH
 
 export const getTransactions = async (req, res) => {
 
   try {
 
-    const userId = req.userId;
+    const { month, year } = req.query;
+
+    const start = new Date(year, month - 1, 1);
+    const end = new Date(year, month, 1);
 
     const transactions = await prisma.transaction.findMany({
-      where: { userId },
-      orderBy: { createdAt: "desc" }
+      where: {
+        userId: req.user.id,
+        date: {
+          gte: start,
+          lt: end
+        }
+      },
+      orderBy: {
+        date: "desc"
+      }
     });
 
     res.json(transactions);
 
-  } catch (error) {
+  } catch (err) {
 
-    console.log(error);
+    console.error("Fetch Transactions Error:", err);
 
     res.status(500).json({
-      error: error.message
+      message: "Failed to fetch transactions"
     });
 
   }
 
 };
 
+
+// ADD TRANSACTION
+
 export const addTransaction = async (req, res) => {
 
   try {
 
-    const userId = req.userId;
-
-    const { amount, category, type, description } = req.body;
+    const { title, amount, type, category, date } = req.body;
 
     const transaction = await prisma.transaction.create({
       data: {
-        amount,
-        category,
+        title,
+        amount: Number(amount),
         type,
-        description,
-        userId
+        category,
+        date: new Date(date),
+        userId: req.user.id
+      }
+    });
+
+    res.status(201).json(transaction);
+
+  } catch (err) {
+
+    console.error("Add Transaction Error:", err);
+
+    res.status(500).json({
+      message: "Failed to add transaction"
+    });
+
+  }
+
+};
+
+
+// UPDATE
+
+export const updateTransaction = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const { title, amount, type, category, date } = req.body;
+
+    const transaction = await prisma.transaction.update({
+      where: { id: Number(id) },
+      data: {
+        title,
+        amount: Number(amount),
+        type,
+        category,
+        date: new Date(date)
       }
     });
 
     res.json(transaction);
 
-  } catch (error) {
+  } catch (err) {
 
-    console.log(error);
+    console.error("Update Transaction Error:", err);
 
     res.status(500).json({
-      error: error.message
+      message: "Failed to update transaction"
+    });
+
+  }
+
+};
+
+
+// DELETE
+
+export const deleteTransaction = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    await prisma.transaction.delete({
+      where: { id: Number(id) }
+    });
+
+    res.json({
+      message: "Transaction deleted"
+    });
+
+  } catch (err) {
+
+    console.error("Delete Transaction Error:", err);
+
+    res.status(500).json({
+      message: "Failed to delete transaction"
     });
 
   }

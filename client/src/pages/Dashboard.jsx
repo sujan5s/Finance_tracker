@@ -1,53 +1,139 @@
+import { useEffect } from "react";
 import { useFinance } from "../context/FinanceContext";
-import CategoryPieChart from "../components/dashboard/CategoryPieChart";
+import ExpenseChart from "../components/dashboard/ExpenseChart";
 
-function Dashboard() {
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
 
-  const { dashboard } = useFinance();
+const Dashboard = () => {
 
-  const balance = dashboard?.balance || 0;
-  const income = dashboard?.income || 0;
-  const expenses = dashboard?.expenses || 0;
+  const { dashboard, fetchDashboard, loading, selectedMonth } = useFinance();
+
+  useEffect(() => {
+    fetchDashboard();
+  }, [selectedMonth]);
+
+  if (loading || !dashboard) return <p>Loading...</p>;
+
+  const data = [
+    { name: "Income", value: dashboard.income },
+    { name: "Expense", value: dashboard.expense }
+  ];
+
+  const COLORS = ["#22c55e", "#ef4444"];
+
+  const usedPercent =
+    dashboard.budget > 0
+      ? (dashboard.expense / dashboard.budget) * 100
+      : 0;
 
   return (
 
-    <div>
+    <div className="p-6">
 
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        Dashboard
+      </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      {/* CARDS */}
 
-        <div className="bg-green-200 p-6 rounded-xl shadow">
-          <p>Total Balance</p>
-          <h2 className="text-2xl font-bold">₹{balance}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+
+        <div className="bg-green-100 p-4 rounded">
+          <h3>Income</h3>
+          <p>₹ {dashboard.income}</p>
         </div>
 
-        <div className="bg-purple-200 p-6 rounded-xl shadow">
-          <p>Income</p>
-          <h2 className="text-2xl font-bold">₹{income}</h2>
+        <div className="bg-red-100 p-4 rounded">
+          <h3>Expense</h3>
+          <p>₹ {dashboard.expense}</p>
         </div>
 
-        <div className="bg-red-200 p-6 rounded-xl shadow">
-          <p>Expense</p>
-          <h2 className="text-2xl font-bold">₹{expenses}</h2>
+        <div className="bg-blue-100 p-4 rounded">
+          <h3>Budget</h3>
+          <p>₹ {dashboard.budget}</p>
+        </div>
+
+        <div className="bg-yellow-100 p-4 rounded">
+          <h3>Remaining</h3>
+          <p>₹ {dashboard.remaining}</p>
         </div>
 
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* CHARTS */}
 
-        <CategoryPieChart />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 
-        <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-lg font-semibold">Monthly Overview</h2>
-          <p>No data available</p>
+        <div className="bg-white p-6 rounded shadow">
+
+          <h2 className="mb-4 font-semibold">
+            Income vs Expense
+          </h2>
+
+          <ResponsiveContainer width="100%" height={300}>
+
+            <PieChart>
+
+              <Pie
+                data={data}
+                dataKey="value"
+                outerRadius={120}
+                label
+              >
+
+                {data.map((entry, index) => (
+                  <Cell key={index} fill={COLORS[index]} />
+                ))}
+
+              </Pie>
+
+              <Tooltip />
+
+            </PieChart>
+
+          </ResponsiveContainer>
+
         </div>
+
+        <div className="bg-white p-6 rounded shadow">
+          <ExpenseChart />
+        </div>
+
+      </div>
+
+      {/* BUDGET BAR */}
+
+      <div className="bg-white p-6 rounded shadow">
+
+        <h2 className="mb-3 font-semibold">
+          Budget Usage
+        </h2>
+
+        <div className="w-full bg-gray-200 h-4 rounded">
+
+          <div
+            className="bg-blue-500 h-4 rounded"
+            style={{ width: `${usedPercent}%` }}
+          />
+
+        </div>
+
+        <p className="mt-2 text-sm">
+          ₹{dashboard.expense} of ₹{dashboard.budget} used
+        </p>
 
       </div>
 
     </div>
 
   );
-}
+
+};
 
 export default Dashboard;

@@ -1,22 +1,33 @@
-const Navbar = ({ toggleSidebar }) => {
-  return (
-    <div className="bg-white shadow-md p-4 flex justify-between items-center">
+import { useFinance } from "../../context/FinanceContext";
+
+function Navbar({ sidebarOpen,setSidebarOpen }) {
+
+  const { selectedMonth,setSelectedMonth } = useFinance();
+
+  return(
+
+    <div className="bg-white shadow p-4 flex items-center justify-between">
+
       <button
-        onClick={toggleSidebar}
-        className="text-xl font-bold px-3 py-1 rounded-lg hover:bg-rose-100"
+        onClick={()=>setSidebarOpen(!sidebarOpen)}
+        className="text-xl"
       >
         ☰
       </button>
-      
-      <h1 className="text-2xl font-bold text-rose-500">
-        FinanceTracker
-      </h1>
 
-      <div className="text-gray-500">
-        Welcome 👋
-      </div>
+      <input
+        type="month"
+        value={selectedMonth}
+        onChange={(e)=>setSelectedMonth(e.target.value)}
+        className="border p-2 rounded"
+      />
+
+      <div>Finance Tracker</div>
+
     </div>
+
   );
-};
+
+}
 
 export default Navbar;

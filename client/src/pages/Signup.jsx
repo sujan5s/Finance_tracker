@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Signup() {
 
@@ -77,6 +77,18 @@ function Signup() {
         >
           Signup
         </button>
+
+        {/* Signup link */}
+
+        <p className="text-sm text-center mt-4">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-blue-500 hover:underline"
+          >
+            Login
+          </Link>
+        </p>
 
       </form>
 

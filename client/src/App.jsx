@@ -1,6 +1,8 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { FinanceProvider } from "./context/FinanceContext";
 
 import Layout from "./components/layout/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
@@ -10,29 +12,56 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 function App() {
+
+  const token = localStorage.getItem("token");
+
   return (
-    <BrowserRouter>
 
-      <Routes>
+    <FinanceProvider>
 
-        {/* AUTH ROUTES */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+      <BrowserRouter>
 
-        {/* APP ROUTES WITH SIDEBAR */}
-        <Route element={<Layout />}>
+        <Routes>
 
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/recurring" element={<Recurring />} />
-          <Route path="/budgets" element={<Budgets />} />
+          {/* ROOT REDIRECT */}
 
-        </Route>
+          <Route
+            path="/"
+            element={
+              token ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
+            }
+          />
 
-      </Routes>
+          {/* AUTH ROUTES */}
 
-    </BrowserRouter>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          {/* PROTECTED ROUTES */}
+
+          <Route
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/recurring" element={<Recurring />} />
+            <Route path="/budgets" element={<Budgets />} />
+
+          </Route>
+
+        </Routes>
+
+      </BrowserRouter>
+
+    </FinanceProvider>
+
   );
+
 }
 
 export default App;
