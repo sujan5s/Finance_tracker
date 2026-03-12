@@ -98,7 +98,11 @@ function Signup() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="text-gray-500 hover:text-gray-300 focus:outline-none"
                 >
-                 
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
                 </button>
               </div>
             </div>
