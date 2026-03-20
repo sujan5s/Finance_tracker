@@ -50,7 +50,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           </div>
           <div>
             <div style={{ fontWeight: 700, fontSize: 14, color: "var(--text-primary)" }}>FinanceTracker</div>
-            <div style={{ fontSize: 10, color: "var(--accent-green)", fontWeight: 600 }}>Premium Account</div>
+            <div style={{ fontSize: 10, color: "var(--accent-green)", fontWeight: 600 }}>Your Financial Assistant</div>
           </div>
         </Link>
         <button
@@ -74,10 +74,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
             <div style={{ fontWeight: 600, fontSize: 13, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {user?.name || "Alex Morgan"}
+              {user?.name || "user.name"}
             </div>
-            <div style={{ fontSize: 10, color: "var(--accent-green)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-              Premium Member
+            <div style={{ fontSize: 10, color: "var(--accent-green)", fontWeight: 600, textTransform: "lowercase", letterSpacing: "0.05em" }}>
+              {user?.email || "user.email"}
             </div>
           </div>
         </div>
