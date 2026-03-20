@@ -9,16 +9,16 @@ export const useFinance = () => useContext(FinanceContext);
 
 export const FinanceProvider = ({ children }) => {
 
-  const currentMonth = new Date().toISOString().slice(0,7);
+  const currentMonth = new Date().toISOString().slice(0, 7);
 
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
 
-  const [dashboard,setDashboard] = useState(null);
-  const [transactions,setTransactions] = useState([]);
-  const [recurring,setRecurring] = useState([]);
-  const [user,setUser] = useState(null);
-  const [loading,setLoading] = useState(false);
-  const [chartData,setChartData] = useState([]);
+  const [dashboard, setDashboard] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [recurring, setRecurring] = useState([]);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [chartData, setChartData] = useState([]);
 
   const getToken = () => localStorage.getItem("token");
 
@@ -29,22 +29,22 @@ export const FinanceProvider = ({ children }) => {
 
   const fetchProfile = async () => {
 
-    try{
+    try {
 
       const token = getToken();
 
       const res = await axios.get(
         `${API}/user/profile`,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
       setUser(res.data);
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
@@ -57,7 +57,7 @@ export const FinanceProvider = ({ children }) => {
 
   const fetchDashboard = async () => {
 
-    try{
+    try {
 
       setLoading(true);
 
@@ -66,19 +66,19 @@ export const FinanceProvider = ({ children }) => {
       const res = await axios.get(
         `${API}/dashboard?month=${month}&year=${year}`,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
       setDashboard(res.data);
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
-    }finally{
+    } finally {
 
       setLoading(false);
 
@@ -97,7 +97,7 @@ export const FinanceProvider = ({ children }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setChartData(res.data);
-    } catch(err) {
+    } catch (err) {
       console.log(err.response?.data || err.message);
     }
   };
@@ -107,22 +107,22 @@ export const FinanceProvider = ({ children }) => {
 
   const fetchTransactions = async () => {
 
-    try{
+    try {
 
       const token = getToken();
 
       const res = await axios.get(
         `${API}/transactions?month=${month}&year=${year}`,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
       setTransactions(res.data);
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
@@ -133,7 +133,7 @@ export const FinanceProvider = ({ children }) => {
 
   const addTransaction = async (data) => {
 
-    try{
+    try {
 
       const token = getToken();
 
@@ -141,8 +141,8 @@ export const FinanceProvider = ({ children }) => {
         `${API}/transactions`,
         data,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
@@ -150,7 +150,7 @@ export const FinanceProvider = ({ children }) => {
       fetchTransactions();
       fetchDashboard();
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
@@ -159,9 +159,9 @@ export const FinanceProvider = ({ children }) => {
   };
 
 
-  const updateTransaction = async (id,data) => {
+  const updateTransaction = async (id, data) => {
 
-    try{
+    try {
 
       const token = getToken();
 
@@ -169,8 +169,8 @@ export const FinanceProvider = ({ children }) => {
         `${API}/transactions/${id}`,
         data,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
@@ -178,7 +178,7 @@ export const FinanceProvider = ({ children }) => {
       fetchTransactions();
       fetchDashboard();
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
@@ -189,15 +189,15 @@ export const FinanceProvider = ({ children }) => {
 
   const deleteTransaction = async (id) => {
 
-    try{
+    try {
 
       const token = getToken();
 
       await axios.delete(
         `${API}/transactions/${id}`,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
@@ -205,7 +205,7 @@ export const FinanceProvider = ({ children }) => {
       fetchTransactions();
       fetchDashboard();
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
@@ -218,22 +218,22 @@ export const FinanceProvider = ({ children }) => {
 
   const fetchRecurring = async () => {
 
-    try{
+    try {
 
       const token = getToken();
 
       const res = await axios.get(
         `${API}/recurring`,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
       setRecurring(res.data);
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
@@ -244,7 +244,7 @@ export const FinanceProvider = ({ children }) => {
 
   const addRecurring = async (data) => {
 
-    try{
+    try {
 
       const token = getToken();
 
@@ -252,15 +252,15 @@ export const FinanceProvider = ({ children }) => {
         `${API}/recurring`,
         data,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
       fetchRecurring();
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
@@ -269,9 +269,9 @@ export const FinanceProvider = ({ children }) => {
   };
 
 
-  const updateRecurring = async (id,data) => {
+  const updateRecurring = async (id, data) => {
 
-    try{
+    try {
 
       const token = getToken();
 
@@ -279,15 +279,15 @@ export const FinanceProvider = ({ children }) => {
         `${API}/recurring/${id}`,
         data,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
       fetchRecurring();
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
@@ -298,22 +298,22 @@ export const FinanceProvider = ({ children }) => {
 
   const deleteRecurring = async (id) => {
 
-    try{
+    try {
 
       const token = getToken();
 
       await axios.delete(
         `${API}/recurring/${id}`,
         {
-          headers:{
-            Authorization:`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
       fetchRecurring();
 
-    }catch(err){
+    } catch (err) {
 
       console.log(err.response?.data || err.message);
 
@@ -322,18 +322,18 @@ export const FinanceProvider = ({ children }) => {
   };
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
     const token = getToken();
 
-    if(token){
+    if (token) {
       fetchProfile();
     }
 
-  },[]);
+  }, []);
 
 
-  return(
+  return (
 
     <FinanceContext.Provider
       value={{
