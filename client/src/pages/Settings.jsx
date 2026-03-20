@@ -27,7 +27,7 @@ const rowStyle = {
   flexWrap: "wrap",
 };
 const labelStyle = { fontSize: 14, fontWeight: 500, color: "var(--text-primary)" };
-const subStyle   = { fontSize: 12, color: "var(--text-secondary)", marginTop: 2 };
+const subStyle = { fontSize: 12, color: "var(--text-secondary)", marginTop: 2 };
 const inputStyle = {
   background: "var(--bg-primary)",
   border: "1px solid var(--border-color)",
@@ -66,13 +66,13 @@ export default function Settings() {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
-  const [name,    setName]    = useState(user?.name  || "");
-  const [email,   setEmail]   = useState(user?.email || "");
-  const [saved,   setSaved]   = useState(false);
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [saved, setSaved] = useState(false);
 
-  const [notifBudget,      setNotifBudget]      = useState(true);
+  const [notifBudget, setNotifBudget] = useState(true);
   const [notifTransaction, setNotifTransaction] = useState(true);
-  const [notifRecurring,   setNotifRecurring]   = useState(false);
+  const [notifRecurring, setNotifRecurring] = useState(false);
 
   const handleSave = () => {
     // Profile save (extend with API call if needed)
@@ -158,9 +158,9 @@ export default function Settings() {
           <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>Notifications</span>
         </div>
         {[
-          { label: "Budget Alerts",        sub: "Get notified when you're close to your budget",    on: notifBudget,      set: setNotifBudget },
-          { label: "Transaction Alerts",   sub: "Notify on new income or expense transactions",      on: notifTransaction, set: setNotifTransaction },
-          { label: "Recurring Reminders",  sub: "Reminders before recurring payments are processed", on: notifRecurring,   set: setNotifRecurring },
+          { label: "Budget Alerts", sub: "Get notified when you're close to your budget", on: notifBudget, set: setNotifBudget },
+          { label: "Transaction Alerts", sub: "Notify on new income or expense transactions", on: notifTransaction, set: setNotifTransaction },
+          { label: "Recurring Reminders", sub: "Reminders before recurring payments are processed", on: notifRecurring, set: setNotifRecurring },
         ].map((item, i, arr) => (
           <div key={item.label} style={{ ...rowStyle, ...(i === arr.length - 1 ? { borderBottom: "none" } : {}) }}>
             <div>
