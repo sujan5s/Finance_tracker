@@ -275,6 +275,8 @@ export const FinanceProvider = ({ children }) => {
       );
 
       fetchRecurring();
+      fetchTransactions();
+      fetchDashboard();
 
     } catch (err) {
 
@@ -302,6 +304,8 @@ export const FinanceProvider = ({ children }) => {
       );
 
       fetchRecurring();
+      fetchTransactions();
+      fetchDashboard();
 
     } catch (err) {
 
@@ -328,6 +332,8 @@ export const FinanceProvider = ({ children }) => {
       );
 
       fetchRecurring();
+      fetchTransactions();
+      fetchDashboard();
 
     } catch (err) {
 
