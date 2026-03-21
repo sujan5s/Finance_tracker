@@ -1,4 +1,5 @@
 import prisma from "../config/prisma.js";
+import { syncRecurringTransactions } from "../services/recurringSync.js";
 
 export const getRecurring = async (req, res) => {
   try {
@@ -50,6 +51,8 @@ export const addRecurring = async (req, res) => {
       }
     });
 
+    await syncRecurringTransactions(req.user.id);
+
     res.status(201).json(recurring);
 
   } catch (err) {
@@ -91,6 +94,8 @@ export const updateRecurring = async (req, res) => {
         startDate: new Date(startDate)
       }
     });
+
+    await syncRecurringTransactions(req.user.id);
 
     res.json(recurring);
 

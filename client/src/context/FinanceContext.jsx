@@ -52,6 +52,22 @@ export const FinanceProvider = ({ children }) => {
 
   };
 
+  const updateProfile = async (data) => {
+    try {
+      const token = getToken();
+      const res = await axios.put(
+        `${API}/user/profile`,
+        data,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setUser(res.data);
+      return res.data;
+    } catch (err) {
+      console.log(err.response?.data || err.message);
+      throw err;
+    }
+  };
+
 
   // ---------------- DASHBOARD ----------------
 
@@ -89,11 +105,11 @@ export const FinanceProvider = ({ children }) => {
 
   // ---------------- CHART DATA ----------------
 
-  const fetchChartData = async () => {
+  const fetchChartData = async (months = 6) => {
     try {
       const token = getToken();
       const res = await axios.get(
-        `${API}/dashboard/chart-data`,
+        `${API}/dashboard/chart-data?months=${months}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setChartData(res.data);
@@ -259,6 +275,8 @@ export const FinanceProvider = ({ children }) => {
       );
 
       fetchRecurring();
+      fetchTransactions();
+      fetchDashboard();
 
     } catch (err) {
 
@@ -286,6 +304,8 @@ export const FinanceProvider = ({ children }) => {
       );
 
       fetchRecurring();
+      fetchTransactions();
+      fetchDashboard();
 
     } catch (err) {
 
@@ -312,6 +332,8 @@ export const FinanceProvider = ({ children }) => {
       );
 
       fetchRecurring();
+      fetchTransactions();
+      fetchDashboard();
 
     } catch (err) {
 
@@ -345,6 +367,7 @@ export const FinanceProvider = ({ children }) => {
         user,
         loading,
         chartData,
+        updateProfile,
         fetchDashboard,
         fetchChartData,
         fetchTransactions,

@@ -1,4 +1,5 @@
 import prisma from "../config/prisma.js";
+import { syncRecurringTransactions } from "../services/recurringSync.js";
 
 // GET TRANSACTIONS BY MONTH
 
@@ -7,6 +8,8 @@ export const getTransactions = async (req, res) => {
   try {
 
     const { month, year } = req.query;
+
+    await syncRecurringTransactions(req.user.id);
 
     const start = new Date(year, month - 1, 1);
     const end = new Date(year, month, 1);

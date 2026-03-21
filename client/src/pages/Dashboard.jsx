@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFinance } from "../context/FinanceContext";
 import { TrendingUp, TrendingDown, Target, PiggyBank, Filter } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
@@ -22,11 +22,13 @@ export default function Dashboard() {
     transactions, loading, chartData, selectedMonth
   } = useFinance();
 
+  const [chartMonths, setChartMonths] = useState(6);
+
   useEffect(() => {
     fetchDashboard();
     fetchTransactions();
-    fetchChartData();
-  }, [selectedMonth]);
+    fetchChartData(chartMonths);
+  }, [selectedMonth, chartMonths]);
 
   if (loading && !dashboard) {
     return (
@@ -97,7 +99,28 @@ export default function Dashboard() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
             <div>
               <h2 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>Income vs Expenses</h2>
-              <p style={{ margin: "4px 0 0", fontSize: 12, color: "var(--text-secondary)" }}>Last 6 months overview</p>
+              <p style={{ margin: "4px 0 0", fontSize: 12, color: "var(--text-secondary)" }}>Last {chartMonths} months overview</p>
+            </div>
+            <div style={{ display: "flex", gap: 4, background: "var(--bg-primary)", padding: 3, borderRadius: 8, border: "1px solid var(--border-color)" }}>
+              {[6, 12, 24].map(m => (
+                <button
+                  key={m}
+                  onClick={() => setChartMonths(m)}
+                  style={{
+                    padding: "4px 8px",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    borderRadius: 6,
+                    border: "none",
+                    cursor: "pointer",
+                    background: chartMonths === m ? "var(--accent-green)" : "transparent",
+                    color: chartMonths === m ? "#fff" : "var(--text-secondary)",
+                    transition: "all 0.2s"
+                  }}
+                >
+                  {m}M
+                </button>
+              ))}
             </div>
           </div>
 
