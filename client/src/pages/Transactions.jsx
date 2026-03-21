@@ -34,21 +34,33 @@ export default function Transactions() {
     fetchTransactions();
   }, [selectedMonth]);
 
-  const resetForm = () => {
-    setForm({ title: "", amount: "", category: "Food", date: "" });
+  const resetForm = (newType = type) => {
+    setForm({ title: "", amount: "", category: newType === "income" ? INCOME_CATS[0] : EXPENSE_CATS[0], date: "" });
     setEditingId(null);
     setShowForm(false);
   };
 
+  const handleAdd = (newType) => {
+    setType(newType);
+    setForm({ title: "", amount: "", category: newType === "income" ? INCOME_CATS[0] : EXPENSE_CATS[0], date: "" });
+    setEditingId(null);
+    setShowForm(true);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = { ...form, amount: Number(form.amount), type };
+    let currentCat = form.category;
+    const cats = type === "income" ? INCOME_CATS : EXPENSE_CATS;
+    if (!cats.includes(currentCat)) {
+      currentCat = cats[0];
+    }
+    const data = { ...form, category: currentCat, amount: Number(form.amount), type };
     if (editingId) {
       updateTransaction(editingId, data);
     } else {
       addTransaction(data);
     }
-    resetForm();
+    resetForm(type);
   };
 
   const handleEdit = (t) => {
@@ -71,13 +83,13 @@ export default function Transactions() {
         </div>
         <div style={{ display: "flex", gap: 10 }}>
           <button
-            onClick={() => { setType("income"); setShowForm(true); }}
+            onClick={() => handleAdd("income")}
             style={{ display: "flex", alignItems: "center", gap: 6, padding: "9px 16px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}
           >
             <Plus size={16} /> Add Income
           </button>
           <button
-            onClick={() => { setType("expense"); setShowForm(true); }}
+            onClick={() => handleAdd("expense")}
             style={{ display: "flex", alignItems: "center", gap: 6, padding: "9px 16px", borderRadius: 8, background: "rgba(248,113,113,0.15)", color: "var(--accent-red)", fontWeight: 700, fontSize: 14, border: "1px solid var(--accent-red)", cursor: "pointer" }}
           >
             <Plus size={16} /> Add Expense
@@ -92,7 +104,7 @@ export default function Transactions() {
             <h2 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>
               ⚡ {editingId ? "Edit" : "Quick Entry"} — {type === "income" ? "Income" : "Expense"}
             </h2>
-            <button onClick={resetForm} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-secondary)" }}>
+            <button onClick={() => resetForm(type)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-secondary)" }}>
               <X size={18} />
             </button>
           </div>
