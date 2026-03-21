@@ -105,11 +105,11 @@ export const FinanceProvider = ({ children }) => {
 
   // ---------------- CHART DATA ----------------
 
-  const fetchChartData = async () => {
+  const fetchChartData = async (months = 6) => {
     try {
       const token = getToken();
       const res = await axios.get(
-        `${API}/dashboard/chart-data`,
+        `${API}/dashboard/chart-data?months=${months}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setChartData(res.data);

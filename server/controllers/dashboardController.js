@@ -1,13 +1,14 @@
 import prisma from "../config/prisma.js";
 
-// Returns last 6 months of income + expense totals for the chart
+// Returns last N months of income + expense totals for the chart
 export const getChartData = async (req, res) => {
   try {
     const userId = req.user.id;
+    const months = parseInt(req.query.months) || 6;
     const now = new Date();
     const result = [];
 
-    for (let i = 5; i >= 0; i--) {
+    for (let i = months - 1; i >= 0; i--) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const startDate = new Date(d.getFullYear(), d.getMonth(), 1);
       const endDate   = new Date(d.getFullYear(), d.getMonth() + 1, 1);
