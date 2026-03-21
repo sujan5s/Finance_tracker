@@ -109,7 +109,7 @@ export default function Settings() {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 720 }}>
+    <div style={{ display: "flex",flexDirection: "column",gap: 20,width: "100%",padding: "20px 32px",  }}>
 
       <div>
         <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: "var(--text-primary)" }}>Settings</h1>
