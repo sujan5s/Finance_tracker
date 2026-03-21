@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFinance } from "../context/FinanceContext";
 import { useTheme } from "../context/ThemeContext";
 import { User, Bell, Shield, Palette, Moon, Sun, Save, LogOut } from "lucide-react";
@@ -62,22 +62,39 @@ const thumbStyle = (on) => ({
 });
 
 export default function Settings() {
-  const { user } = useFinance();
+  const { user, updateProfile } = useFinance();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const [name, setName] = useState(user?.name || "");
   const [email, setEmail] = useState(user?.email || "");
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name || "");
+      setEmail(user.email || "");
+    }
+  }, [user]);
 
   const [notifBudget, setNotifBudget] = useState(true);
   const [notifTransaction, setNotifTransaction] = useState(true);
   const [notifRecurring, setNotifRecurring] = useState(false);
 
-  const handleSave = () => {
-    // Profile save (extend with API call if needed)
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  const handleSave = async () => {
+    setError("");
+    setSaving(true);
+    try {
+      await updateProfile({ name, email });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to update profile");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const logout = () => {
@@ -126,9 +143,10 @@ export default function Settings() {
           <input value={email} onChange={e => setEmail(e.target.value)} style={inputStyle} placeholder="you@email.com" type="email" />
         </div>
 
-        <div style={{ padding: "14px 24px", borderTop: "1px solid var(--border-color)", display: "flex", justifyContent: "flex-end" }}>
-          <button onClick={handleSave} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 18px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}>
-            <Save size={14} /> {saved ? "Saved!" : "Save Changes"}
+        <div style={{ padding: "14px 24px", borderTop: "1px solid var(--border-color)", display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 12 }}>
+          {error && <span style={{ color: "var(--accent-red)", fontSize: 13 }}>{error}</span>}
+          <button onClick={handleSave} disabled={saving} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 18px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: saving ? "not-allowed" : "pointer", opacity: saving ? 0.7 : 1 }}>
+            <Save size={14} /> {saved ? "Saved!" : saving ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </div>

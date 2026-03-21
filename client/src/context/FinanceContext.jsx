@@ -52,6 +52,22 @@ export const FinanceProvider = ({ children }) => {
 
   };
 
+  const updateProfile = async (data) => {
+    try {
+      const token = getToken();
+      const res = await axios.put(
+        `${API}/user/profile`,
+        data,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setUser(res.data);
+      return res.data;
+    } catch (err) {
+      console.log(err.response?.data || err.message);
+      throw err;
+    }
+  };
+
 
   // ---------------- DASHBOARD ----------------
 
@@ -345,6 +361,7 @@ export const FinanceProvider = ({ children }) => {
         user,
         loading,
         chartData,
+        updateProfile,
         fetchDashboard,
         fetchChartData,
         fetchTransactions,
