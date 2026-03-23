@@ -41,9 +41,9 @@ export default function Dashboard() {
     );
   }
 
-  const income    = dashboard?.income    || 0;
-  const expense   = dashboard?.expense   || 0;
-  const budget    = dashboard?.budget    || 0;
+  const income = dashboard?.income || 0;
+  const expense = dashboard?.expense || 0;
+  const budget = dashboard?.budget || 0;
   const remaining = dashboard?.remaining ?? (budget - expense);
 
   const recentTxns = (transactions || []).slice(0, 5);
@@ -62,10 +62,10 @@ export default function Dashboard() {
   const maxCat = categories[0]?.[1] || 1;
 
   const kpiCards = [
-    { label: "Total Income",   value: income,    change: null, icon: <TrendingUp size={18} />,   color: "var(--accent-green)" },
-    { label: "Total Expenses", value: expense,   change: null, icon: <TrendingDown size={18} />, color: "var(--accent-red)" },
-    { label: "Monthly Budget", value: budget,    change: "Target", icon: <Target size={18} />,   color: "#3b82f6" },
-    { label: "Remaining",      value: remaining, change: budget > 0 ? `${Math.round((expense/budget)*100)}% used` : null, icon: <PiggyBank size={18} />, color: "var(--accent-yellow)" },
+    { label: "Total Income", value: income, change: null, icon: <TrendingUp size={18} />, color: "var(--accent-green)" },
+    { label: "Total Expenses", value: expense, change: null, icon: <TrendingDown size={18} />, color: "var(--accent-red)" },
+    { label: "Monthly Budget", value: budget, change: "Target", icon: <Target size={18} />, color: "#3b82f6" },
+    { label: "Remaining", value: remaining, change: budget > 0 ? `${Math.round((expense / budget) * 100)}% used` : null, icon: <PiggyBank size={18} />, color: "var(--accent-yellow)" },
   ];
 
   return (
@@ -137,8 +137,8 @@ export default function Dashboard() {
                   contentStyle={{ background: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: 8, fontSize: 12 }}
                   formatter={(v, name) => [fmtINR(v), name === "income" ? "Income" : "Expenses"]}
                 />
-                <Bar dataKey="income"  fill="var(--accent-green)" radius={[4, 4, 0, 0]} name="income" />
-                <Bar dataKey="expense" fill="#7c3a2d"             radius={[4, 4, 0, 0]} name="expense" />
+                <Bar dataKey="income" fill="var(--accent-green)" radius={[4, 4, 0, 0]} name="income" />
+                <Bar dataKey="expense" fill="#7c3a2d" radius={[4, 4, 0, 0]} name="expense" />
               </BarChart>
             </ResponsiveContainer>
           )}
