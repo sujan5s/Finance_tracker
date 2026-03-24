@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFinance } from "../context/FinanceContext";
 import { useTheme } from "../context/ThemeContext";
 import { User, Bell, Shield, Palette, Moon, Sun, Save, LogOut } from "lucide-react";
@@ -27,7 +27,7 @@ const rowStyle = {
   flexWrap: "wrap",
 };
 const labelStyle = { fontSize: 14, fontWeight: 500, color: "var(--text-primary)" };
-const subStyle   = { fontSize: 12, color: "var(--text-secondary)", marginTop: 2 };
+const subStyle = { fontSize: 12, color: "var(--text-secondary)", marginTop: 2 };
 const inputStyle = {
   background: "var(--bg-primary)",
   border: "1px solid var(--border-color)",
@@ -62,22 +62,39 @@ const thumbStyle = (on) => ({
 });
 
 export default function Settings() {
-  const { user } = useFinance();
+  const { user, updateProfile } = useFinance();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
-  const [name,    setName]    = useState(user?.name  || "");
-  const [email,   setEmail]   = useState(user?.email || "");
-  const [saved,   setSaved]   = useState(false);
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
-  const [notifBudget,      setNotifBudget]      = useState(true);
+  useEffect(() => {
+    if (user) {
+      setName(user.name || "");
+      setEmail(user.email || "");
+    }
+  }, [user]);
+
+  const [notifBudget, setNotifBudget] = useState(true);
   const [notifTransaction, setNotifTransaction] = useState(true);
-  const [notifRecurring,   setNotifRecurring]   = useState(false);
+  const [notifRecurring, setNotifRecurring] = useState(false);
 
-  const handleSave = () => {
-    // Profile save (extend with API call if needed)
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  const handleSave = async () => {
+    setError("");
+    setSaving(true);
+    try {
+      await updateProfile({ name, email });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to update profile");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const logout = () => {
@@ -92,7 +109,7 @@ export default function Settings() {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 720 }}>
+    <div style={{ display: "flex",flexDirection: "column",gap: 20,width: "100%",padding: "20px 32px",  }}>
 
       <div>
         <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: "var(--text-primary)" }}>Settings</h1>
@@ -126,9 +143,10 @@ export default function Settings() {
           <input value={email} onChange={e => setEmail(e.target.value)} style={inputStyle} placeholder="you@email.com" type="email" />
         </div>
 
-        <div style={{ padding: "14px 24px", borderTop: "1px solid var(--border-color)", display: "flex", justifyContent: "flex-end" }}>
-          <button onClick={handleSave} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 18px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}>
-            <Save size={14} /> {saved ? "Saved!" : "Save Changes"}
+        <div style={{ padding: "14px 24px", borderTop: "1px solid var(--border-color)", display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 12 }}>
+          {error && <span style={{ color: "var(--accent-red)", fontSize: 13 }}>{error}</span>}
+          <button onClick={handleSave} disabled={saving} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 18px", borderRadius: 8, background: "var(--accent-green)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: saving ? "not-allowed" : "pointer", opacity: saving ? 0.7 : 1 }}>
+            <Save size={14} /> {saved ? "Saved!" : saving ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </div>
@@ -158,9 +176,9 @@ export default function Settings() {
           <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>Notifications</span>
         </div>
         {[
-          { label: "Budget Alerts",        sub: "Get notified when you're close to your budget",    on: notifBudget,      set: setNotifBudget },
-          { label: "Transaction Alerts",   sub: "Notify on new income or expense transactions",      on: notifTransaction, set: setNotifTransaction },
-          { label: "Recurring Reminders",  sub: "Reminders before recurring payments are processed", on: notifRecurring,   set: setNotifRecurring },
+          { label: "Budget Alerts", sub: "Get notified when you're close to your budget", on: notifBudget, set: setNotifBudget },
+          { label: "Transaction Alerts", sub: "Notify on new income or expense transactions", on: notifTransaction, set: setNotifTransaction },
+          { label: "Recurring Reminders", sub: "Reminders before recurring payments are processed", on: notifRecurring, set: setNotifRecurring },
         ].map((item, i, arr) => (
           <div key={item.label} style={{ ...rowStyle, ...(i === arr.length - 1 ? { borderBottom: "none" } : {}) }}>
             <div>

@@ -31,14 +31,15 @@ model Transaction {
 }
 
 model RecurringTransaction {
-  id        Int      @id @default(autoincrement())
-  title     String
-  amount    Float
-  type      String
-  category  String?
-  frequency String
-  startDate DateTime
-  userId    Int
+  id                Int       @id @default(autoincrement())
+  title             String
+  amount            Float
+  type              String
+  category          String?
+  frequency         String
+  startDate         DateTime
+  lastProcessedDate DateTime?
+  userId            Int
 }
 
 model Budget {
