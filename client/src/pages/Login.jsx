@@ -108,7 +108,7 @@ function Login() {
         </div>
 
         <footer className="mt-8 text-center text-slate-500 text-xs">
-          © 2024 Finance Tracker Inc. Secure 256-bit SSL encrypted connection.
+          © 2026 Finance Tracker Inc. Secure 256-bit SSL encrypted connection.
         </footer>
       </div>
     </div>
