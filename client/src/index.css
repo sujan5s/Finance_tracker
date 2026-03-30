@@ -1,46 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
 
 /* ─── LIGHT MODE ─── */
 :root {
-  --bg-primary:      #f0f4f8;
-  --bg-surface:      #ffffff;
-  --bg-card:         #f8fafc;
-  --text-primary:    #0f172a;
-  --text-secondary:  #64748b;
-  --border-color:    #e2e8f0;
-  --accent-green:    #22c55e;
-  --accent-red:      #ef4444;
-  --accent-yellow:   #f59e0b;
-  --nav-active-bg:   #dcfce7;
+  --bg-primary: #f0f4f8;
+  --bg-surface: #ffffff;
+  --bg-card: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --accent-green: #22c55e;
+  --accent-red: #ef4444;
+  --accent-yellow: #f59e0b;
+  --nav-active-bg: #dcfce7;
   --nav-active-text: #16a34a;
-  --sidebar-bg:      #ffffff;
-  --header-bg:       #ffffff;
+  --sidebar-bg: #ffffff;
+  --header-bg: #ffffff;
 }
 
 /* ─── DARK MODE ─── */
 .dark {
-  --bg-primary:      #0d1611;
-  --bg-surface:      #131b17;
-  --bg-card:         #1a2420;
-  --text-primary:    #f1f5f9;
-  --text-secondary:  #8eaaa0;
-  --border-color:    #1e2d25;
-  --accent-green:    #00d05e;
-  --accent-red:      #f87171;
-  --accent-yellow:   #fbbf24;
-  --nav-active-bg:   #1a3a28;
+  --bg-primary: #0d1611;
+  --bg-surface: #131b17;
+  --bg-card: #1a2420;
+  --text-primary: #f1f5f9;
+  --text-secondary: #8eaaa0;
+  --border-color: #1e2d25;
+  --accent-green: #00d05e;
+  --accent-red: #f87171;
+  --accent-yellow: #fbbf24;
+  --nav-active-bg: #1a3a28;
   --nav-active-text: #00d05e;
-  --sidebar-bg:      #131b17;
-  --header-bg:       #0d1611;
+  --sidebar-bg: #131b17;
+  --header-bg: #0d1611;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+* {
+  box-sizing: border-box;
+}
 
-* { box-sizing: border-box; }
-
-html { font-size: 15px; }
+html {
+  font-size: 15px;
+}
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -51,35 +51,63 @@ body {
 }
 
 /* Smooth theme transitions */
-body, header, aside, main, nav, div, section, span, p, h1, h2, h3, h4 {
+body,
+header,
+aside,
+main,
+nav,
+div,
+section,
+span,
+p,
+h1,
+h2,
+h3,
+h4 {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-input, button, a { transition: none; }
+input,
+button,
+a {
+  transition: none;
+}
 
 /* Scrollbars */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
 
-/* ── Calendar / date-picker icon colour fix ── */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+/* Calendar icon fix */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="month"]::-webkit-calendar-picker-indicator {
   filter: invert(0);
   cursor: pointer;
   opacity: 0.7;
 }
+
 .dark input[type="date"]::-webkit-calendar-picker-indicator,
 .dark input[type="month"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);   /* makes the icon white in dark mode */
+  filter: invert(1);
   opacity: 0.8;
 }
 
-/* Date/month input consistent colours */
+/* Date input color scheme */
 input[type="date"],
 input[type="month"] {
   color-scheme: light;
 }
+
 .dark input[type="date"],
 .dark input[type="month"] {
   color-scheme: dark;
@@ -105,7 +133,10 @@ input[type="month"] {
   align-items: center;
   gap: 6px;
 }
-.btn-primary:hover { opacity: 0.9; }
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
 
 .badge-income {
   background: rgba(0, 208, 94, 0.15);
