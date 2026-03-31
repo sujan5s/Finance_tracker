@@ -49,24 +49,26 @@ export const syncRecurringTransactions = async (userId) => {
       }
 
       if (transactionsToCreate.length > 0) {
-        // Check if transactions already exist for these dates
+        // Check if transactions already exist for these dates - normalize to date only
         const existingTransactions = await prisma.transaction.findMany({
           where: {
             userId: userId,
-            date: {
-              in: transactionsToCreate.map(t => t.date)
-            },
             title: rec.title,
             amount: rec.amount
           }
         });
 
-        // Filter out duplicates
-        const newTransactions = transactionsToCreate.filter(newTx => 
-          !existingTransactions.some(existing => 
-            existing.date.getTime() === newTx.date.getTime()
-          )
-        );
+        // Filter out duplicates by comparing dates (without time)
+        const newTransactions = transactionsToCreate.filter(newTx => {
+          const newDate = new Date(newTx.date);
+          newDate.setHours(0, 0, 0, 0);
+          
+          return !existingTransactions.some(existing => {
+            const existingDate = new Date(existing.date);
+            existingDate.setHours(0, 0, 0, 0);
+            return existingDate.getTime() === newDate.getTime();
+          });
+        });
 
         if (newTransactions.length > 0) {
           await prisma.transaction.createMany({
