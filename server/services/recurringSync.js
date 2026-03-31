@@ -12,13 +12,20 @@ export const syncRecurringTransactions = async (userId) => {
     for (const rec of recurring) {
       const transactionsToCreate = [];
       
+      // Use lastProcessedDate if it exists, otherwise use startDate
       let currentDate = new Date(rec.lastProcessedDate || rec.startDate);
       
+      // If we've already processed this recurring transaction, increment to next period
       if (rec.lastProcessedDate) {
         if (rec.frequency === 'daily') {
           currentDate.setDate(currentDate.getDate() + 1);
         } else if (rec.frequency === 'monthly') {
           currentDate.setMonth(currentDate.getMonth() + 1);
+        }
+      } else {
+        // First time processing - only generate if startDate is today or in the past
+        if (currentDate > endOfToday) {
+          continue; // Skip if startDate is in the future
         }
       }
 
@@ -42,9 +49,30 @@ export const syncRecurringTransactions = async (userId) => {
       }
 
       if (transactionsToCreate.length > 0) {
-        await prisma.transaction.createMany({
-          data: transactionsToCreate
+        // Check if transactions already exist for these dates
+        const existingTransactions = await prisma.transaction.findMany({
+          where: {
+            userId: userId,
+            date: {
+              in: transactionsToCreate.map(t => t.date)
+            },
+            title: rec.title,
+            amount: rec.amount
+          }
         });
+
+        // Filter out duplicates
+        const newTransactions = transactionsToCreate.filter(newTx => 
+          !existingTransactions.some(existing => 
+            existing.date.getTime() === newTx.date.getTime()
+          )
+        );
+
+        if (newTransactions.length > 0) {
+          await prisma.transaction.createMany({
+            data: newTransactions
+          });
+        }
         
         const lastGeneratedDate = transactionsToCreate[transactionsToCreate.length - 1].date;
         await prisma.recurringTransaction.update({
