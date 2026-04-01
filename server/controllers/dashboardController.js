@@ -39,7 +39,6 @@ export const getChartData = async (req, res) => {
 export const getDashboard = async (req, res) => {
   try {
     const userId = req.user.id;
-    await syncRecurringTransactions(userId);
     const month = Number(req.query.month) || new Date().getMonth() + 1;
     const year  = Number(req.query.year)  || new Date().getFullYear();
 
