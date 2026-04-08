@@ -1,6 +1,11 @@
 import prisma from "../config/prisma.js";
 
-export const syncRecurringTransactions = async (userId) => {
+const userSyncLocks = new Set();
+
+export const syncRecurringTransactions = async (userId, targetMonthStr, targetYearStr) => {
+  if (userSyncLocks.has(userId)) return;
+  userSyncLocks.add(userId);
+
   try {
     const recurring = await prisma.recurringTransaction.findMany({
       where: { userId }
@@ -8,6 +13,18 @@ export const syncRecurringTransactions = async (userId) => {
 
     const endOfToday = new Date();
     endOfToday.setHours(23, 59, 59, 999);
+
+    let syncLimit = endOfToday;
+
+    if (targetMonthStr && targetYearStr) {
+      const tMonth = Number(targetMonthStr);
+      const tYear = Number(targetYearStr);
+      
+      const endOfTargetMonth = new Date(tYear, tMonth, 0, 23, 59, 59, 999);
+      if (endOfTargetMonth < endOfToday) {
+        syncLimit = endOfTargetMonth;
+      }
+    }
 
     for (const rec of recurring) {
       const transactionsToCreate = [];
@@ -24,12 +41,12 @@ export const syncRecurringTransactions = async (userId) => {
         }
       } else {
         // First time processing - only generate if startDate is today or in the past
-        if (currentDate > endOfToday) {
-          continue; // Skip if startDate is in the future
+        if (currentDate > syncLimit) {
+          continue; // Skip if startDate is beyond our sync boundary
         }
       }
 
-      while (currentDate <= endOfToday) {
+      while (currentDate <= syncLimit) {
         transactionsToCreate.push({
           title: rec.title,
           amount: rec.amount,
@@ -85,5 +102,7 @@ export const syncRecurringTransactions = async (userId) => {
     }
   } catch (err) {
     console.error("Error syncing recurring transactions:", err);
+  } finally {
+    userSyncLocks.delete(userId);
   }
 };

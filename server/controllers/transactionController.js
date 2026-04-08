@@ -9,10 +9,11 @@ export const getTransactions = async (req, res) => {
 
     const { month, year } = req.query;
 
-    await syncRecurringTransactions(req.user.id);
+    await syncRecurringTransactions(req.user.id, month, year);
 
-    const start = new Date(year, month - 1, 1);
-    const end = new Date(year, month, 1);
+    const startMonth = Number(month) - 1;
+    const start = new Date(Date.UTC(Number(year), startMonth, 1));
+    const end = new Date(Date.UTC(startMonth === 11 ? Number(year) + 1 : Number(year), startMonth === 11 ? 0 : startMonth + 1, 1));
 
     const transactions = await prisma.transaction.findMany({
       where: {

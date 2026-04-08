@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "frequency": "daily",
+    "startDate": "2026-03-01T00:00:00.000Z",
+    "lastProcessedDate": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2,
+    "title": "Netflix ",
+    "amount": 1200,
+    "type": "expense",
+    "category": "Subscription",
+    "frequency": "monthly",
+    "startDate": "2026-03-01T00:00:00.000Z",
+    "lastProcessedDate": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 3,
+    "title": "Jio Hotstar",
+    "amount": 700,
+    "type": "expense",
+    "category": "Subscription",
+    "frequency": "monthly",
+    "startDate": "2026-03-01T00:00:00.000Z",
+    "lastProcessedDate": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "frequency": "daily",
+    "startDate": "2026-02-01T00:00:00.000Z",
+    "lastProcessedDate": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 5,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "frequency": "daily",
+    "startDate": "2026-01-01T00:00:00.000Z",
+    "lastProcessedDate": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 6,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "frequency": "daily",
+    "startDate": "2025-12-01T00:00:00.000Z",
+    "lastProcessedDate": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 7,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "frequency": "daily",
+    "startDate": "2025-12-01T00:00:00.000Z",
+    "lastProcessedDate": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 12,
+    "title": "SALARY",
+    "amount": 200000,
+    "type": "income",
+    "category": "Salary",
+    "frequency": "monthly",
+    "startDate": "2025-04-01T00:00:00.000Z",
+    "lastProcessedDate": "2026-04-01T00:00:00.000Z",
+    "userId": 1
+  }
+]

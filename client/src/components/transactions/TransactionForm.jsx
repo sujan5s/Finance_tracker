@@ -10,7 +10,7 @@ const TransactionForm = () => {
 
     const token = localStorage.getItem("token");
 
-    await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/transactions`, {
+    await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5001/api"}/transactions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

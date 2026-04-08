@@ -42,8 +42,9 @@ export const getDashboard = async (req, res) => {
     const month = Number(req.query.month) || new Date().getMonth() + 1;
     const year  = Number(req.query.year)  || new Date().getFullYear();
 
-    const startDate = new Date(year, month - 1, 1);
-    const endDate   = new Date(year, month, 1);
+    const startMonth = month - 1;
+    const startDate = new Date(Date.UTC(year, startMonth, 1));
+    const endDate   = new Date(Date.UTC(startMonth === 11 ? year + 1 : year, startMonth === 11 ? 0 : startMonth + 1, 1));
 
     const transactions = await prisma.transaction.findMany({
       where: { userId, date: { gte: startDate, lt: endDate } },

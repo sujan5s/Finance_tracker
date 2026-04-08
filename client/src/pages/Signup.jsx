@@ -15,7 +15,7 @@ function Signup() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/auth/register`,
+        `${import.meta.env.VITE_API_URL || "http://localhost:5001/api"}/auth/register`,
         {
           name,
           email,

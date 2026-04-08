@@ -41,8 +41,14 @@ export default function Dashboard() {
     );
   }
 
-  const income = dashboard?.income || 0;
-  const expense = dashboard?.expense || 0;
+  const income = (transactions || [])
+    .filter(t => t.type === "income")
+    .reduce((sum, t) => sum + Number(t.amount), 0);
+    
+  const expense = (transactions || [])
+    .filter(t => t.type === "expense")
+    .reduce((sum, t) => sum + Number(t.amount), 0);
+    
   const budget = dashboard?.budget || 0;
   const remaining = dashboard?.remaining ?? (budget - expense);
 

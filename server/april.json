@@ -1,0 +1,767 @@
+[
+  {
+    "id": 2218,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2250,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2282,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2314,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2346,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2378,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2410,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2442,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2474,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2506,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2538,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2570,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2602,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2634,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2666,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2698,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2730,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2762,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2794,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2826,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2858,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2890,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2922,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 2954,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 3626,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 3658,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 3690,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 3722,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 3754,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 3786,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 3818,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 3850,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4095,
+    "title": "SALARY",
+    "amount": 200000,
+    "type": "income",
+    "category": "Salary",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 1
+  },
+  {
+    "id": 4096,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4097,
+    "title": "Netflix ",
+    "amount": 1200,
+    "type": "expense",
+    "category": "Subscription",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4098,
+    "title": "Netflix ",
+    "amount": 1200,
+    "type": "expense",
+    "category": "Subscription",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4099,
+    "title": "Jio Hotstar",
+    "amount": 700,
+    "type": "expense",
+    "category": "Subscription",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4100,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4101,
+    "title": "Jio Hotstar",
+    "amount": 700,
+    "type": "expense",
+    "category": "Subscription",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4102,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4103,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4104,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4105,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4106,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4107,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4108,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4109,
+    "title": "SALARY",
+    "amount": 200000,
+    "type": "income",
+    "category": "Salary",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 1
+  },
+  {
+    "id": 4110,
+    "title": "SALARY",
+    "amount": 200000,
+    "type": "income",
+    "category": "Salary",
+    "date": "2026-04-01T00:00:00.000Z",
+    "userId": 1
+  },
+  {
+    "id": 4111,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-02T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4112,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-02T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4113,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-02T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4114,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-02T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4115,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-02T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4116,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-02T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4117,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-02T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4118,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-03T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4119,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-04T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4120,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-05T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4121,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-06T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4122,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-07T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4123,
+    "title": "Foodddd",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4124,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-03T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4125,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-04T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4126,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-05T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4127,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-06T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4128,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-07T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4129,
+    "title": "Food",
+    "amount": 500,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4130,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-03T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4131,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-04T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4132,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-05T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4133,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-06T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4134,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-07T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4135,
+    "title": "Food",
+    "amount": 1000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4136,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-03T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4137,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-04T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4138,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-05T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4139,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-06T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4140,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-07T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4141,
+    "title": "Food",
+    "amount": 2000,
+    "type": "expense",
+    "category": "Bills",
+    "date": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4142,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-03T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4143,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-04T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4144,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-05T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4145,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-06T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4146,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-07T00:00:00.000Z",
+    "userId": 5
+  },
+  {
+    "id": 4147,
+    "title": "Shop",
+    "amount": 3000,
+    "type": "expense",
+    "category": "Rent",
+    "date": "2026-04-08T00:00:00.000Z",
+    "userId": 5
+  }
+]
